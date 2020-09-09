@@ -5,8 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github</groupId>
-    <artifactId>seng</artifactId>
+    <artifactId>seng-parent</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <name>seng</name>
+    <modules>
+        <module>core</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies></dependencies>
+    </dependencyManagement>
 
 </project>
