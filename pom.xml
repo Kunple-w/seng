@@ -11,7 +11,10 @@
 
     <name>seng</name>
     <modules>
-        <module>core</module>
+        <module>seng-core</module>
+        <module>seng-executor</module>
+        <module>seng-scheduler</module>
+        <module>seng-client</module>
     </modules>
 
     <dependencyManagement>
