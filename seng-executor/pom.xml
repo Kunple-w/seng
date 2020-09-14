@@ -11,5 +11,12 @@
 
     <artifactId>seng-executor</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>seng-core</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

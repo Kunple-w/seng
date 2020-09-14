@@ -17,8 +17,45 @@
         <module>seng-client</module>
     </modules>
 
+    <properties>
+        <seng-version>1.0-SNAPSHOT</seng-version>
+        <junit-jupiter-version>RELEASE</junit-jupiter-version>
+    </properties>
+
     <dependencyManagement>
-        <dependencies></dependencies>
+        <dependencies>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>seng-core</artifactId>
+                <version>${seng-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>seng-executor</artifactId>
+                <version>${seng-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>seng-scheduler</artifactId>
+                <version>${seng-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github</groupId>
+                <artifactId>seng-client</artifactId>
+                <version>${seng-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit-jupiter-version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
 </project>
