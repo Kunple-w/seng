@@ -20,6 +20,7 @@
     <properties>
         <seng-version>1.0-SNAPSHOT</seng-version>
         <junit-jupiter-version>RELEASE</junit-jupiter-version>
+        <netty-version>4.1.52.Final</netty-version>
     </properties>
 
     <dependencyManagement>
@@ -55,6 +56,13 @@
                 <version>${junit-jupiter-version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
+                <version>${netty-version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
