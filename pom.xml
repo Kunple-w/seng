@@ -19,14 +19,16 @@
     </modules>
 
     <properties>
-        <seng-version>1.0-SNAPSHOT</seng-version>
-        <junit-jupiter-version>RELEASE</junit-jupiter-version>
-        <netty-version>4.1.52.Final</netty-version>
-        <zookeeper-version>3.6.2</zookeeper-version>
-        <consul-version>1.4.5</consul-version>
+        <seng.version>1.0-SNAPSHOT</seng.version>
+        <junit-jupiter.version>RELEASE</junit-jupiter.version>
+        <netty.version>4.1.52.Final</netty.version>
+        <zookeeper.version>3.6.2</zookeeper.version>
+        <consul.version>1.4.5</consul.version>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <guava.version>29.0-jre</guava.version>
+        <common-lang3.version>3.11</common-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -34,52 +36,64 @@
             <dependency>
                 <groupId>com.github</groupId>
                 <artifactId>seng-core</artifactId>
-                <version>${seng-version}</version>
+                <version>${seng.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github</groupId>
                 <artifactId>seng-executor</artifactId>
-                <version>${seng-version}</version>
+                <version>${seng.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github</groupId>
                 <artifactId>seng-scheduler</artifactId>
-                <version>${seng-version}</version>
+                <version>${seng.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.github</groupId>
                 <artifactId>seng-client</artifactId>
-                <version>${seng-version}</version>
+                <version>${seng.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>${junit-jupiter-version}</version>
+                <version>${junit-jupiter.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId> <!-- Use 'netty-all' for 4.0 or above -->
-                <version>${netty-version}</version>
+                <version>${netty.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper -->
             <dependency>
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
-                <version>${zookeeper-version}</version>
+                <version>${zookeeper.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/com.ecwid.consul/consul-api -->
             <dependency>
                 <groupId>com.ecwid.consul</groupId>
                 <artifactId>consul-api</artifactId>
-                <version>${consul-version}</version>
+                <version>${consul.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common-lang3.version}</version>
             </dependency>
 
         </dependencies>
