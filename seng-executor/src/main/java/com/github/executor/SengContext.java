@@ -23,8 +23,24 @@ public class SengContext {
     private int shardCount;
 
     /**
+     * 分片索引
+     */
+    private int shardIndex;
+
+    /**
      * 额外参数
      */
     private Map<String, String> attachment;
+
+
+    private static ThreadLocal<SengContext> holder = new ThreadLocal<>();
+
+    public static void setContext(SengContext sengContext) {
+        holder.set(sengContext);
+    }
+
+    public static SengContext getSengContext() {
+        return holder.get();
+    }
 
 }
