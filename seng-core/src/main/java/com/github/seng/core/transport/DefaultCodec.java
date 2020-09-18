@@ -3,6 +3,7 @@ package com.github.seng.core.transport;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.CombinedChannelDuplexHandler;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToByteEncoder;
 
@@ -14,7 +15,7 @@ import java.util.List;
  *
  * @author wangyongxu
  */
-public class DefaultCodec implements Codec {
+public class DefaultCodec extends CombinedChannelDuplexHandler implements Codec {
 
     public void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws IOException {
 

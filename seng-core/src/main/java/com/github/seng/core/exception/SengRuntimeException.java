@@ -6,4 +6,9 @@ package com.github.seng.core.exception;
  * @author wangyongxu
  */
 public class SengRuntimeException extends RuntimeException {
+
+    public SengRuntimeException(String message, Throwable throwable) {
+        super(message, throwable);
+    }
+
 }
