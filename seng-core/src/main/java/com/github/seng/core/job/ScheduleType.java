@@ -18,7 +18,7 @@ public enum ScheduleType {
     RANDOM,
 
     /**
-     * 轮训
+     * 轮询
      */
     ROUND_ROBIN,
 
@@ -40,7 +40,7 @@ public enum ScheduleType {
     /**
      * 最佳选择
      */
-    BEST_CHOICE
+    DEFAULT
 
 
 }

@@ -17,10 +17,11 @@ public class SengContext {
      * 任务id, 一个作业可以拆分为多个任务
      */
     private String taskId;
+
     /**
-     * 分片数量
+     * 分片总数量
      */
-    private int shardCount;
+    private int shardTotalCount;
 
     /**
      * 分片索引
@@ -33,7 +34,7 @@ public class SengContext {
     private Map<String, String> attachment;
 
 
-    private static ThreadLocal<SengContext> holder = new ThreadLocal<>();
+    private static final ThreadLocal<SengContext> holder = new ThreadLocal<>();
 
     public static void setContext(SengContext sengContext) {
         holder.set(sengContext);
