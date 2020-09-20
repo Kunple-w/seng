@@ -35,6 +35,27 @@ public class DefaultCodec extends CombinedChannelDuplexHandler implements Codec 
         protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
             // TODO: 2020-09-16 05:14:05 编码器 by wangyongxu
+            if (byteBuf.readableBytes() < 136) {
+                return;
+            }
+            SengProtocolHeader sengProtocolHeader = new SengProtocolHeader();
+            sengProtocolHeader.setMagic(byteBuf.readShort());
+            sengProtocolHeader.setVersion(byteBuf.readByte());
+            byte b = byteBuf.readByte();
+            sengProtocolHeader.setMsgType((byte) ((b & 240) >>> 4));
+            sengProtocolHeader.setSerializerId((byte) (b & 15));
+            b = byteBuf.readByte();
+            sengProtocolHeader.setStatusCode((byte) ((b & 248) >>> 3));
+            sengProtocolHeader.setReqId(byteBuf.readLong());
+            int bodyLength = byteBuf.readInt();
+            sengProtocolHeader.setDataLength(bodyLength);
+            list.add(sengProtocolHeader);
+            if (byteBuf.readableBytes() < bodyLength) {
+                return;
+            }
+            ByteBuf body = byteBuf.readBytes(bodyLength);
+            list.add(body);
+
         }
     }
 }

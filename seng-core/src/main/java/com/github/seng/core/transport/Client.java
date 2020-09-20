@@ -27,7 +27,7 @@ public class Client {
      * start a client
      * @param inetSocketAddress
      */
-    public void start(InetSocketAddress inetSocketAddress) {
+    public void start(final InetSocketAddress inetSocketAddress) {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
