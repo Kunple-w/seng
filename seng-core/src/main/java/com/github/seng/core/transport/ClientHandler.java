@@ -8,9 +8,9 @@ import io.netty.channel.SimpleChannelInboundHandler;
  *
  * @author qiankewei
  */
-public class ClientHandler extends SimpleChannelInboundHandler {
+public class ClientHandler extends SimpleChannelInboundHandler<SengMessage> {
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, SengMessage msg) throws Exception {
 
     }
 
@@ -28,4 +28,5 @@ public class ClientHandler extends SimpleChannelInboundHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
     }
+
 }
