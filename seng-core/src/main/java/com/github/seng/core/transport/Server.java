@@ -9,6 +9,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
@@ -34,7 +35,6 @@ public class Server {
                 bind(inetSocketAddress);
             }
         }, "serverStartThread");
-        thread.setDaemon(true);
         thread.start();
     }
 
@@ -56,8 +56,10 @@ public class Server {
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    socketChannel.pipeline().addLast(new LoggingHandler());
                     socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new DefaultCodec());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+                    socketChannel.pipeline().addLast(new SengMessageEncoder());
                     socketChannel.pipeline().addLast(new ServerHandler());
                 }
             }).option(ChannelOption.SO_BACKLOG, 1024).childOption(ChannelOption.SO_KEEPALIVE, true);

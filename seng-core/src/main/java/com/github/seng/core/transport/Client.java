@@ -9,6 +9,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
@@ -58,8 +59,10 @@ public class Client {
             bootstrap.group(group).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    socketChannel.pipeline().addLast(new LoggingHandler());
                     socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new DefaultCodec());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+                    socketChannel.pipeline().addLast(new SengMessageEncoder());
                     socketChannel.pipeline().addLast(new ClientHandler());
                 }
             }).option(ChannelOption.TCP_NODELAY, true);
