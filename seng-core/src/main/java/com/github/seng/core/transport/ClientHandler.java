@@ -56,6 +56,7 @@ public class ClientHandler extends ChannelDuplexHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        logger.error("客户端异常",cause);
         super.exceptionCaught(ctx, cause);
     }
 

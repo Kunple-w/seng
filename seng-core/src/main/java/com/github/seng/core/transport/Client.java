@@ -7,10 +7,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
-import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 客户端
@@ -48,11 +46,9 @@ public class Client {
     }
 
     public SengMessage send(SengMessage sengMessage) {
-        System.out.println("发送消息");
-        channel.write(sengMessage);
-//        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
-//        return clientHandler.getResponse(channel);
-        return null;
+        channel.writeAndFlush(sengMessage);
+        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
+        return clientHandler.getResponse(channel);
     }
 
     public Channel getChannel() {

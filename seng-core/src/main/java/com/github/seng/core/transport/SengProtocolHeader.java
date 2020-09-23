@@ -12,10 +12,27 @@ package com.github.seng.core.transport;
  * @author qiankewei
  */
 public class SengProtocolHeader {
-    private short magic;
-    private byte version;
+    private static final short SENG_PROTOCOL_MAGIC = (short) 0xFDAC;
+
+    /* ---------------- msgType -------------- */
+    public static final byte REQUEST = 0x00;
+    public static final byte RESPONSE = 0x01;
+    public static final byte ONE_WAY = 0x02;
+    public static final byte PING = 0x03;
+    public static final byte PONG = 0x04;
+    /* ---------------- msgType -------------- */
+
+    /* ---------------- statusCode -------------- */
+    public static final byte OK = 0x00;
+    public static final byte TIME_OUT = 0x01;
+    public static final byte CLIENT_ERROR = 0x02;
+    public static final byte SERVER_ERROR = 0x03;
+    /* ---------------- statusCode -------------- */
+
+    private short magic = SENG_PROTOCOL_MAGIC;
+    private byte version = 1;
     private byte msgType;
-    private byte serializerId;
+    private byte serializerId = 1;
     private byte statusCode;
     private long reqId;
     private int dataLength;
@@ -30,10 +47,6 @@ public class SengProtocolHeader {
 
     public short getMagic() {
         return magic;
-    }
-
-    public void setMagic(short magic) {
-        this.magic = magic;
     }
 
     public byte getVersion() {

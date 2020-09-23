@@ -18,7 +18,7 @@ public class SengMessageEncoder extends MessageToByteEncoder<SengMessage> {
 
     @Override
     public void encode(ChannelHandlerContext ctx, SengMessage msg, ByteBuf out) throws Exception {
-        logger.info("编码器: {}", msg);
+        logger.info("encode: {}", msg);
         SengProtocolHeader header = msg.getHeader();
         out.writeShort(header.getMagic());
         out.writeByte(header.getVersion());
@@ -26,12 +26,13 @@ public class SengMessageEncoder extends MessageToByteEncoder<SengMessage> {
         out.writeByte(b);
         b = (byte) ((header.getStatusCode() & 7) << 3);
         out.writeByte(b);
+        // requestId
         out.writeLong(header.getReqId());
-        int lengthPos = out.writerIndex();
+        // body length
         out.writeInt(header.getDataLength());
-        int bodyStartPos = out.writerIndex();
+        // serializer body
         Serializer serializer = SerializerFactory.getSerializer(header.getSerializerId());
+        // write body
         out.writeBytes(serializer.serialize(msg.getBody()));
-        out.setInt(lengthPos, out.writerIndex() - bodyStartPos);
     }
 }

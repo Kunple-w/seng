@@ -1,20 +1,21 @@
 package com.github.seng.core.transport;
 
-import java.util.Map;
+import lombok.Data;
 
 /**
  * message, type of seng protocol
  *
- *
  * @author qiankewei
  */
+@Data
 public class SengMessage {
 
     private SengProtocolHeader header;
 
     private byte[] body;
 
-    public SengMessage() {}
+    public SengMessage() {
+    }
 
     public SengMessage(SengProtocolHeader header, byte[] body) {
         this.header = header;
