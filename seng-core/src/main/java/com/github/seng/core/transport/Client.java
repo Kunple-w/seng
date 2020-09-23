@@ -2,10 +2,7 @@ package com.github.seng.core.transport;
 
 import com.github.seng.core.exception.SengRuntimeException;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -24,8 +21,11 @@ public class Client {
 
     private Thread thread;
 
+    private Channel channel;
+
     /**
      * start a client
+     *
      * @param inetSocketAddress
      */
     public void start(final InetSocketAddress inetSocketAddress) {
@@ -47,8 +47,21 @@ public class Client {
         }
     }
 
+    public SengMessage send(SengMessage sengMessage) {
+        System.out.println("发送消息");
+        channel.write(sengMessage);
+//        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
+//        return clientHandler.getResponse(channel);
+        return null;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
     public void disConnect() {
         //TODO
+        channel.close();
     }
 
 
@@ -60,13 +73,21 @@ public class Client {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new LoggingHandler());
-                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+//                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder());
                     socketChannel.pipeline().addLast(new ClientHandler());
                 }
             }).option(ChannelOption.TCP_NODELAY, true);
-            ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress.getHostString(), inetSocketAddress.getPort()).sync();
+            ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress.getHostString(), inetSocketAddress.getPort());
+            channelFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()) {
+                        channel = future.channel();
+                    }
+                }
+            });
             channelFuture.channel().closeFuture().sync();
 
         } catch (InterruptedException e) {

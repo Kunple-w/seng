@@ -18,6 +18,7 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
     @Override
     public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
+        System.out.println("---------------");
         // TODO: 2020-09-16 05:14:05 编码器 by wangyongxu
         if (byteBuf.readableBytes() < 17) {
             return;

@@ -30,6 +30,7 @@
         <guava.version>29.0-jre</guava.version>
         <common-lang3.version>3.11</common-lang3.version>
         <jackson.version>2.11.2</jackson.version>
+        <sl4j.version>1.7.25</sl4j.version>
     </properties>
 
     <dependencyManagement>
@@ -110,8 +111,32 @@
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${sl4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

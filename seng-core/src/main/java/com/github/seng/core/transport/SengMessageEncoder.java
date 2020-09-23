@@ -5,6 +5,8 @@ import com.github.seng.core.serialize.SerializerFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * seng message encoder
@@ -12,8 +14,11 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @author qiankewei
  */
 public class SengMessageEncoder extends MessageToByteEncoder<SengMessage> {
+    private static final Logger logger = LoggerFactory.getLogger(SengMessageEncoder.class);
+
     @Override
     public void encode(ChannelHandlerContext ctx, SengMessage msg, ByteBuf out) throws Exception {
+        logger.info("编码器: {}", msg);
         SengProtocolHeader header = msg.getHeader();
         out.writeShort(header.getMagic());
         out.writeByte(header.getVersion());

@@ -2,13 +2,11 @@ package com.github.seng.core.transport;
 
 import com.github.seng.core.exception.SengRuntimeException;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 
@@ -24,6 +22,7 @@ public class Server {
 
     private Thread thread;
 
+    private Channel channel;
     /**
      * start a server
      * @param inetSocketAddress
@@ -56,7 +55,7 @@ public class Server {
             serverBootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
-                    socketChannel.pipeline().addLast(new LoggingHandler());
+                    socketChannel.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                     socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
                     socketChannel.pipeline().addLast(new SengMessageDecoder());
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
@@ -64,6 +63,7 @@ public class Server {
                 }
             }).option(ChannelOption.SO_BACKLOG, 1024).childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture channelFuture = serverBootstrap.bind(inetSocketAddress.getPort()).sync();
+            channel = channelFuture.channel();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new SengRuntimeException("start server fail.", e);

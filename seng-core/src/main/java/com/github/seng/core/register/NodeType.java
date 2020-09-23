@@ -14,5 +14,10 @@ public enum NodeType {
     /**
      * 调度器节点
      */
-    SCHEDULER
+    SCHEDULER,
+
+    /**
+     *客户端节点
+     */
+    CLIENT,
 }
