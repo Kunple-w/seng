@@ -13,14 +13,14 @@ public class Request {
 
     private static final AtomicLong REQUEST_ID = new AtomicLong(0);
     private SengProtocolHeader header;
-    private Object body;
+    private Invocation body;
 
-    public Request(SengProtocolHeader header, Object body) {
+    public Request(SengProtocolHeader header, Invocation body) {
         this.header = header;
         this.body = body;
     }
 
-    public Request(Object body) {
+    public Request(Invocation body) {
         this.header = sengProtocolHeader(newReqId());
         this.body = body;
     }
