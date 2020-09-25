@@ -14,11 +14,9 @@ public interface Serializer {
      *
      * @param obj : 要序列化的对象
      * @return byte[] : byte[]
-     * @throws java.io.NotSerializableException 序列化失败时抛出异常
-     * @throws IOException                      反序列化失败时抛出异常
      * @author wangyongxu
      */
-    byte[] serialize(Object obj) throws IOException;
+    byte[] serialize(Object obj);
 
     /**
      * 将byte[]反序列化为对象
@@ -26,8 +24,7 @@ public interface Serializer {
      * @param bytes : byte数组
      * @param clazz : 反序列化的类
      * @return T
-     * @throws IOException 反序列化失败时抛出异常
      * @author wangyongxu
      */
-    <T> T deserialize(byte[] bytes, Class<T> clazz) throws IOException;
+    <T> T deserialize(byte[] bytes, Class<T> clazz);
 }
