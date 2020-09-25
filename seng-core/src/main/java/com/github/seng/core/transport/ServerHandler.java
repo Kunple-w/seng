@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,6 +16,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class ServerHandler extends ChannelDuplexHandler {
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
+
+    private final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author qiankewei
  */
-public class SengMessageEncoder extends MessageToByteEncoder<SengMessage> {
+public class SengMessageEncoder extends MessageToByteEncoder<Request> {
     private static final Logger logger = LoggerFactory.getLogger(SengMessageEncoder.class);
 
     @Override
-    public void encode(ChannelHandlerContext ctx, SengMessage msg, ByteBuf out) throws Exception {
+    public void encode(ChannelHandlerContext ctx, Request msg, ByteBuf out) throws Exception {
         logger.info("encode: {}", msg);
         SengProtocolHeader header = msg.getHeader();
         out.writeShort(header.getMagic());

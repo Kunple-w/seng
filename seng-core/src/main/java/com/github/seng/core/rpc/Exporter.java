@@ -1,6 +1,5 @@
 package com.github.seng.core.rpc;
 
-import com.github.seng.core.transport.Client;
 import com.github.seng.core.transport.Server;
 
 /**

@@ -1,5 +1,7 @@
 package com.github.seng.core.transport;
 
+import com.github.seng.core.serialize.Serializer;
+import com.github.seng.core.serialize.SerializerFactory;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -17,6 +19,12 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
     private static final Logger logger = LoggerFactory.getLogger(SengMessageDecoder.class);
 
     private static final short SENG_PROTOCOL_MAGIC = (short) 0xFDAC;
+
+    private Class<?> aClass;
+
+    public SengMessageDecoder(Class<?> aClass) {
+        this.aClass = aClass;
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -49,7 +57,9 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
         byte[] body = new byte[bodyLength];
         byteBuf.getBytes(byteBuf.readerIndex(), body, 0, bodyLength);
 
-        SengMessage sengMessage = new SengMessage(header, body);
+        Serializer serializer = SerializerFactory.getSerializer(header.getSerializerId());
+        Object deserialize = serializer.deserialize(body, aClass);
+        Response sengMessage = new Response(header, deserialize);
         list.add(sengMessage);
     }
 }

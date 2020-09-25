@@ -71,7 +71,7 @@ public class Client {
                     socketChannel.pipeline().addLast(new LoggingHandler());
 //                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
-                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder(Response.class));
                     socketChannel.pipeline().addLast(new ClientHandler());
                 }
             }).option(ChannelOption.TCP_NODELAY, true);

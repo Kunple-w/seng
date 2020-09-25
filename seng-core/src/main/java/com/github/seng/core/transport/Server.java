@@ -23,8 +23,10 @@ public class Server {
     private Thread thread;
 
     private Channel channel;
+
     /**
      * start a server
+     *
      * @param inetSocketAddress
      */
     public void start(final InetSocketAddress inetSocketAddress) {
@@ -46,6 +48,9 @@ public class Server {
         }
     }
 
+    public Object receive() {
+        return null;
+    }
 
     private void bind(InetSocketAddress inetSocketAddress) {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
@@ -57,7 +62,7 @@ public class Server {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                     socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder(Invocation.class));
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
                     socketChannel.pipeline().addLast(new ServerHandler());
                 }
