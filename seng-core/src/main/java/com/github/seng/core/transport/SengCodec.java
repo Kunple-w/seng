@@ -1,7 +1,6 @@
 package com.github.seng.core.transport;
 
 import com.github.seng.core.exception.SengRuntimeException;
-import com.github.seng.core.serialize.JacksonSerializer;
 import com.github.seng.core.serialize.Serializer;
 import com.github.seng.core.serialize.SerializerFactory;
 import io.netty.buffer.ByteBuf;
@@ -11,8 +10,6 @@ import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.StringJoiner;
 
 /**
  * @author wangyongxu
@@ -22,25 +19,27 @@ public class SengCodec implements Codec {
     @Override
     public void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws IOException {
         if (msg instanceof Request) {
-            byte[] bytes = encodeRequest((Request) msg);
-
+            Request request = (Request) msg;
+            byte[] bytes = encodeRequest(request.getBody(), getSerializer(request.getHeader()));
         }
+    }
 
+    private Serializer getSerializer(SengProtocolHeader sengProtocolHeader) {
+        byte serializerId = sengProtocolHeader.getSerializerId();
+        return SerializerFactory.getSerializer(serializerId);
     }
 
     /**
      * 编码调用方的请求
      */
-    public byte[] encodeRequest(Request request) throws IOException {
+    public byte[] encodeRequest(Invocation invocation, Serializer serializer) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ObjectOutput output = createOutput(outputStream);
-        Invocation invocation = request.getBody();
 
         output.writeUTF(invocation.getServiceName());
         output.writeUTF(invocation.getMethodName());
         output.writeUTF(invocation.getArgsDesc());
 
-        Serializer serializer = SerializerFactory.getSerializer(request.getHeader().getSerializerId());
         Object[] args = invocation.getArgs();
 
         if (args != null) {
@@ -118,14 +117,12 @@ public class SengCodec implements Codec {
     /**
      * 解码服务端的响应
      */
-    private Object decodeResponse(byte[] body, Serializer serializer, long requestId) throws IOException {
-
+    private Object decodeResponse(byte[] body, Serializer serializer) throws IOException, ClassNotFoundException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(body);
         ObjectInput input = createInput(inputStream);
         String serviceName = input.readUTF();
-        serializer.deserialize(byte,)
-
-
+        Class<?> aClass = ClassUtils.getClass(serviceName);
+        return serializer.deserialize(body, aClass);
     }
 
 
