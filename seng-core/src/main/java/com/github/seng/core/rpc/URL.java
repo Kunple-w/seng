@@ -21,4 +21,23 @@ public class URL {
 
     private Map<String, String> parameters;
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(protocol);
+        sb.append("://");
+        sb.append(host);
+        sb.append(":");
+        sb.append(port);
+        sb.append("/");
+        sb.append(path);
+//        sb.append("")
+        return "URL{" +
+                "protocol='" + protocol + '\'' +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", path='" + path + '\'' +
+                ", parameters=" + parameters +
+                '}';
+    }
 }
