@@ -11,4 +11,11 @@ public class SengRuntimeException extends RuntimeException {
         super(message, throwable);
     }
 
+    public SengRuntimeException(String message) {
+        super(message);
+    }
+
+    public SengRuntimeException(Throwable cause) {
+        super(cause);
+    }
 }

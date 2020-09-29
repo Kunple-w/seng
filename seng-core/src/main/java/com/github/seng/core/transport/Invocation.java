@@ -15,8 +15,6 @@ public class Invocation {
 
     private String methodName;
 
-    private Method method;
-
     private Object[] args;
 
     public String getArgsDesc() {

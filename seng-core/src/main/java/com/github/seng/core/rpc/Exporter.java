@@ -10,7 +10,7 @@ public class Exporter {
     private int port;
     private Server server;
 
-    public void export(Object service) {
-
+    public void export(Server server, Object service) {
+        server.registerService(service);
     }
 }

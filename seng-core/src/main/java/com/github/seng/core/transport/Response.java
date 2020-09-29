@@ -18,6 +18,22 @@ public class Response {
         this.body = body;
     }
 
+    public Response(Request request, Object body) {
+        this.header = generateResponseHeader(request);
+        this.body = body;
+    }
+
+
+    private SengProtocolHeader generateResponseHeader(Request request) {
+        SengProtocolHeader responseHeader = new SengProtocolHeader();
+        responseHeader.setVersion(request.getHeader().getVersion());
+        responseHeader.setMsgType(SengProtocolHeader.RESPONSE);
+        responseHeader.setSerializerId(request.getHeader().getSerializerId());
+        responseHeader.setStatusCode(SengProtocolHeader.OK);
+        responseHeader.setReqId(request.getHeader().getReqId());
+        return responseHeader;
+    }
+
     public boolean isResponse() {
         return header.getMsgType() == SengProtocolHeader.RESPONSE;
     }
