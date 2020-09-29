@@ -134,14 +134,14 @@ public class RpcFramework {
                                     socket.getOutputStream());
                             try {
                                 // 发送请求
-                                System.out.println("\nClient发送请求 ： ");
+//                                System.out.println("\nClient发送请求 ： ");
                                 output.writeUTF(method.getName());
-                                System.out.println("methodName : " + method.getName());
+//                                System.out.println("methodName : " + method.getName());
                                 output.writeObject(method.getParameterTypes());
-                                System.out.println("parameterTypes : " + Arrays.toString(method
-                                        .getParameterTypes()));
+//                                System.out.println("parameterTypes : " + Arrays.toString(method
+//                                        .getParameterTypes()));
                                 output.writeObject(arguments);
-                                System.out.println("arguments : " + Arrays.toString(arguments));
+//                                System.out.println("arguments : " + Arrays.toString(arguments));
 
 
                                 /* 客户端读取并返回服务端的响应*/

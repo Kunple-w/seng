@@ -31,12 +31,6 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
 
     private static final short SENG_PROTOCOL_MAGIC = (short) 0xFDAC;
 
-    private Class<?> aClass;
-
-    public SengMessageDecoder(Class<?> aClass) {
-        this.aClass = aClass;
-    }
-
     @Override
     public void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         if (byteBuf.readableBytes() < 17) {
@@ -63,10 +57,10 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
         byteBuf.getBytes(byteBuf.readerIndex(), body, 0, bodyLength);
 
         Serializer serializer = SerializerFactory.getSerializer(header.getSerializerId());
-        if (RESPONSE_FLAG == header.getMsgType()) {
+        if (SengProtocolHeader.REQUEST == header.getMsgType()) {
             Invocation o = decodeRequest(body, serializer);
             list.add(new Request(header, o));
-        } else if (RESPONSE_FLAG == header.getMsgType()) {
+        } else if (SengProtocolHeader.RESPONSE == header.getMsgType()) {
             Object o = decodeResponse(body, serializer);
             list.add(new Response(header, o));
         } else {
@@ -75,7 +69,7 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
     }
 
     /**
-     * 解码客户端的请求
+     * 解码来自客户端的请求
      */
     public Invocation decodeRequest(byte[] body, Serializer serializer) throws IOException, ClassNotFoundException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(body);
@@ -100,19 +94,20 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
         invocation.setServiceName(serviceName);
         invocation.setMethodName(methodName);
         invocation.setArgs(args);
-        return serializer.deserialize(body, Invocation.class);
+        return invocation;
     }
 
 
     /**
      * 解码服务端的响应
      */
-    private Object decodeResponse(byte[] body, Serializer serializer) throws IOException {
+    private Object decodeResponse(byte[] body, Serializer serializer) throws IOException, ClassNotFoundException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(body);
         ObjectInput input = createInput(inputStream);
-        String serviceName = input.readUTF();
-        Class<?> aClass = ClassUtils.getClass(serviceName);
-        return serializer.deserialize(body, aClass);
+        String bodyClassName = input.readUTF();
+        byte[] bodyBytes = (byte[])input.readObject();
+        Class<?> aClass = ClassUtils.getClass(bodyClassName);
+        return serializer.deserialize(bodyBytes, aClass);
     }
 
     private ObjectInput createInput(InputStream in) {

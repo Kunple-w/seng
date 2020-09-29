@@ -37,10 +37,10 @@ public class SengMessageEncoder extends MessageToByteEncoder<Object> {
             // requestId
             out.writeLong(header.getReqId());
             // body length
-            out.writeInt(header.getDataLength());
+            byte[] body = encodeRequest(request.getBody(), serializer);
+            out.writeInt(body.length);
             // serializer body
             // write body
-            byte[] body = encodeRequest(request.getBody(), serializer);
             out.writeBytes(body);
 
         } else if (msg instanceof Response) {
@@ -56,11 +56,11 @@ public class SengMessageEncoder extends MessageToByteEncoder<Object> {
             out.writeByte(b);
             // requestId
             out.writeLong(header.getReqId());
-            // body length
-            out.writeInt(header.getDataLength());
             // serializer body
             // write body
             byte[] body = encodeResponse(response.getBody(), serializer);
+            // body length
+            out.writeInt(body.length);
             out.writeBytes(body);
         }
 

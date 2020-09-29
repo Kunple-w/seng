@@ -7,15 +7,21 @@ import org.slf4j.LoggerFactory;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ServerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerTest.class);
+
     @Test
     void start() throws InterruptedException {
         logger.info("server start");
-        new Server().start(new InetSocketAddress(13232));
+        Server server = new Server();
+        server.start(new InetSocketAddress(13232));
+        register(server);
         TimeUnit.HOURS.sleep(100);
+    }
+
+    public void register(Server server) {
+        UserService userService = new UserServiceImpl();
+        server.registerService(userService);
     }
 }

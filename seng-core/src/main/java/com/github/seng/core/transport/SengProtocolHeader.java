@@ -2,12 +2,12 @@ package com.github.seng.core.transport;
 
 /**
  * customize protocol
- * <p>
+ * <pre>
  * =======================================================================================
  * magic | version | msg_type | serializer_id | status_code| remain | req_id | data_length
  * 16    | 8       | 4        | 4             | 5          | 3      | 64     | 32
  *
- * </p>
+ * </pre>
  *
  * @author qiankewei
  */
@@ -29,7 +29,7 @@ public class SengProtocolHeader {
     public static final byte SERVER_ERROR = 0x03;
     /* ---------------- statusCode -------------- */
 
-    private short magic = SENG_PROTOCOL_MAGIC;
+    private final short magic = SENG_PROTOCOL_MAGIC;
     private byte version = 1;
     private byte msgType;
     private byte serializerId = 1;

@@ -24,6 +24,8 @@ public class Server {
 
     private Channel channel;
 
+    private ServerHandler serverHandler = new ServerHandler();
+
     /**
      * start a server
      *
@@ -37,6 +39,11 @@ public class Server {
             }
         }, "serverStartThread");
         thread.start();
+    }
+
+    public void registerService(Object service) {
+//        ServerHandler serverHandler = channel.pipeline().get(ServerHandler.class);
+        serverHandler.registerService(service);
     }
 
     /**
@@ -62,9 +69,9 @@ public class Server {
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
                     socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
-                    socketChannel.pipeline().addLast(new SengMessageDecoder(Invocation.class));
+                    socketChannel.pipeline().addLast(new SengMessageDecoder());
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
-                    socketChannel.pipeline().addLast(new ServerHandler());
+                    socketChannel.pipeline().addLast(serverHandler);
                 }
             }).option(ChannelOption.SO_BACKLOG, 1024).childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture channelFuture = serverBootstrap.bind(inetSocketAddress.getPort()).sync();

@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
+import org.checkerframework.checker.units.qual.C;
 
 import java.net.InetSocketAddress;
 
@@ -20,6 +21,8 @@ public class Client {
     private Thread thread;
 
     private Channel channel;
+
+    private ClientHandler clientHandler = new ClientHandler();
 
     /**
      * start a client
@@ -45,9 +48,13 @@ public class Client {
         }
     }
 
-    public SengMessage send(SengMessage sengMessage) {
-        channel.writeAndFlush(sengMessage);
-        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
+//    public SengMessage send(SengMessage sengMessage) {
+//        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
+//        return clientHandler.getResponse(channel);
+//    }
+
+    public Response send(Request request) {
+        channel.writeAndFlush(request);
         return clientHandler.getResponse(channel);
     }
 
@@ -71,19 +78,12 @@ public class Client {
                     socketChannel.pipeline().addLast(new LoggingHandler());
 //                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
-                    socketChannel.pipeline().addLast(new SengMessageDecoder(Response.class));
-                    socketChannel.pipeline().addLast(new ClientHandler());
+                    socketChannel.pipeline().addLast(new SengMessageDecoder());
+                    socketChannel.pipeline().addLast(clientHandler);
                 }
             }).option(ChannelOption.TCP_NODELAY, true);
             ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress.getHostString(), inetSocketAddress.getPort());
-            channelFuture.addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    if (future.isSuccess()) {
-                        channel = future.channel();
-                    }
-                }
-            });
+            channel = channelFuture.sync().channel();
             channelFuture.channel().closeFuture().sync();
 
         } catch (InterruptedException e) {
