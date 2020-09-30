@@ -1,6 +1,6 @@
 package com.github.seng.core.register;
 
-import com.github.seng.core.transport.SengMessage;
+import com.github.seng.core.rpc.URL;
 
 /**
  * 节点信息
@@ -11,10 +11,9 @@ import com.github.seng.core.transport.SengMessage;
 public interface Node {
 
 
-
     boolean isAvailable();
 
-    NodeType getType();
+    URL getURL();
 
-    void send(SengMessage sengMessage);
+    void destroy();
 }
