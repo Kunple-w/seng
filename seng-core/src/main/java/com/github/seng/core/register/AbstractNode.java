@@ -1,8 +1,6 @@
 package com.github.seng.core.register;
 
 import com.github.seng.core.transport.Client;
-import com.github.seng.core.transport.SengMessage;
-import com.github.seng.core.transport.Server;
 
 /**
  * @author wangyongxu
@@ -22,14 +20,4 @@ public abstract class AbstractNode implements Node {
         return false;
     }
 
-    @Override
-    public NodeType getType() {
-        return null;
-    }
-
-    @Override
-    public void send(SengMessage sengMessage) {
-
-
-    }
 }
