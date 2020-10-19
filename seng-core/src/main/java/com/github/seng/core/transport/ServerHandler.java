@@ -38,21 +38,6 @@ public class ServerHandler extends ChannelDuplexHandler {
             ctx.channel().writeAndFlush(response);
             return;
         }
-//        SengMessage message = (SengMessage) msg;
-//        new Thread(() -> {
-//            try {
-//                TimeUnit.SECONDS.sleep(4);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//
-//            SengMessage sengMessage = new SengMessage();
-//            sengMessage.setHeader(new SengProtocolHeader());
-//            sengMessage.setBody(new byte[0]);
-//            ctx.writeAndFlush(sengMessage);
-//            logger.info("write response: {}", sengMessage);
-//        }).start();
-        //TODO 解析请求，异步变同步
         super.channelRead(ctx, msg);
     }
 

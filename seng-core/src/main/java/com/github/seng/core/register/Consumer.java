@@ -8,7 +8,7 @@ import com.github.seng.core.transport.Response;
  *
  * @author wangyongxu
  */
-public interface Consumer {
+public interface Consumer extends Node {
 
     Response call(Request request);
 }
