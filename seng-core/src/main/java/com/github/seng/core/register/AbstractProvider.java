@@ -1,10 +1,7 @@
 package com.github.seng.core.register;
 
 import com.github.seng.core.rpc.URL;
-import com.github.seng.core.transport.Client;
-import com.github.seng.core.transport.Request;
-import com.github.seng.core.transport.Response;
-import com.github.seng.core.transport.Server;
+import com.github.seng.core.utils.ReflectUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
@@ -16,44 +13,55 @@ import java.util.Map;
  */
 public abstract class AbstractProvider<T> implements Provider<T>, Consumer {
 
-    private Client client;
+    protected Class<T> cls;
 
-    private Server server;
+    protected boolean isAvailable = false;
 
-    private Map<String, Method> methodMap = new HashMap<>();
+    protected Map<String, Method> methodMap = new HashMap<>();
+
+    protected URL url;
+
+    public AbstractProvider(URL url, Class<T> cls) {
+        this.url = url;
+        this.cls = cls;
+        init();
+    }
+
+    protected void init() {
+        methodMap = ReflectUtils.getMethodListDesc(cls);
+        isAvailable = true;
+    }
 
     @Override
     public Class<T> getInterface() {
-        return null;
+        return cls;
     }
 
     @Nullable
     @Override
-    public Method lookupMethod(String methodName, String methodDesc) {
-        return null;
+    public Method lookupMethod(String methodName, String paramDesc) {
+        String methodSignature = ReflectUtils.getMethodSignature(methodName, paramDesc);
+        return methodMap.get(methodSignature);
     }
 
-    @Override
-    public T getImpl() {
-        return null;
-    }
-
-    @Override
-    public Response call(Request request) {
-        return null;
-    }
 
     @Override
     public boolean isAvailable() {
-        return false;
+        return isAvailable;
     }
 
     @Override
     public URL getURL() {
-        return null;
+        return url;
+    }
+
+    @Override
+    public String toString() {
+        return url.toString();
     }
 
     @Override
     public void destroy() {
+        isAvailable = false;
     }
 }

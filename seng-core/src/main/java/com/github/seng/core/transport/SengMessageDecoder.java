@@ -4,7 +4,7 @@ import com.github.seng.core.exception.SengRuntimeException;
 import com.github.seng.core.exception.UnsupportedProtocolException;
 import com.github.seng.core.serialize.Serializer;
 import com.github.seng.core.serialize.SerializerFactory;
-import com.github.seng.core.utils.ClassUtils;
+import com.github.seng.core.utils.ReflectUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -85,7 +85,7 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
             String[] split = argsDesc.split(",");
             args = new Object[split.length];
             for (int i = 0; i < split.length; i++) {
-                Class<?> aClass = ClassUtils.getClass(split[i]);
+                Class<?> aClass = ReflectUtils.getClass(split[i]);
                 args[i] = serializer.deserialize((byte[]) input.readObject(), aClass);
             }
         }
@@ -106,7 +106,7 @@ public class SengMessageDecoder extends ByteToMessageDecoder {
         ObjectInput input = createInput(inputStream);
         String bodyClassName = input.readUTF();
         byte[] bodyBytes = (byte[])input.readObject();
-        Class<?> aClass = ClassUtils.getClass(bodyClassName);
+        Class<?> aClass = ReflectUtils.getClass(bodyClassName);
         return serializer.deserialize(bodyBytes, aClass);
     }
 

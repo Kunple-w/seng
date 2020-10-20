@@ -23,12 +23,12 @@ public interface Provider<T> extends Node {
      * lookup method
      *
      * @param methodName : method name
-     * @param methodDesc : method description
+     * @param paramDesc : param desc
      * @return Java method
      * @author wangyongxu
      */
     @Nullable
-    Method lookupMethod(String methodName, String methodDesc);
+    Method lookupMethod(String methodName, String paramDesc);
 
     /**
      * get impl

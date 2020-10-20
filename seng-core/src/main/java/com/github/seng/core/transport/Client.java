@@ -48,10 +48,6 @@ public class Client {
         }
     }
 
-//    public SengMessage send(SengMessage sengMessage) {
-//        ClientHandler clientHandler = channel.pipeline().get(ClientHandler.class);
-//        return clientHandler.getResponse(channel);
-//    }
 
     public Response send(Request request) {
         channel.writeAndFlush(request);

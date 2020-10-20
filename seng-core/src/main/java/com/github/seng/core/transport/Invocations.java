@@ -1,6 +1,6 @@
 package com.github.seng.core.transport;
 
-import com.github.seng.core.utils.ClassUtils;
+import com.github.seng.core.utils.ReflectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Method;
@@ -12,13 +12,13 @@ public class Invocations {
     public static Method parseMethod(Invocation invocation) {
         String methodName = invocation.getMethodName();
         String argsDesc = invocation.getArgsDesc();
-        Class<?> serviceClass = ClassUtils.getClass(invocation.getServiceName());
+        Class<?> serviceClass = ReflectUtils.getClass(invocation.getServiceName());
         String[] argTypes = StringUtils.split(argsDesc, ",");
         Class<?>[] argClasses = new Class[argTypes.length];
         for (int i = 0; i < argTypes.length; i++) {
-            argClasses[i] = ClassUtils.getClass(argTypes[i]);
+            argClasses[i] = ReflectUtils.getClass(argTypes[i]);
         }
-        return ClassUtils.getMethod(serviceClass, methodName, argClasses);
+        return ReflectUtils.getMethod(serviceClass, methodName, argClasses);
     }
 
     public static Invocation parseInvocation(Class<?> serviceClass, String method, Object[] args) {
