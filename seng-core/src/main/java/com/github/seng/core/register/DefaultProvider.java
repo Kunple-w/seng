@@ -16,6 +16,14 @@ public class DefaultProvider<T> extends AbstractProvider<T> {
 
     protected final T impl;
 
+    /**
+     * constructor
+     *
+     * @param url  : only param context
+     * @param cls  : interface
+     * @param impl : impl class
+     * @author wangyongxu
+     */
     public DefaultProvider(URL url, Class<T> cls, T impl) {
         super(url, cls);
         this.impl = impl;
