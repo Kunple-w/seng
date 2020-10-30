@@ -75,17 +75,38 @@ public class URL {
         String[] parts = paramString.split("&");
         for (String part : parts) {
             String[] kv = part.split("=");
-            params.put(kv[0], kv[1]);
+            if (kv.length == 2) {
+                params.put(kv[0], kv[1] == null ? "" : kv[1]);
+            } else {
+                params.put(kv[0], "");
+            }
         }
         return params;
     }
 
-    public String getURL() {
+    public String getUrl() {
+        String fullURL = getFullURL();
+        return fullURL.substring(0, fullURL.indexOf("?"));
+    }
+
+    public String getIpAndPort() {
+        return host + ":" + port;
+    }
+
+    public String getParam(String key, String defaultValue) {
+        return getParameters().getOrDefault(key, defaultValue);
+    }
+
+    public String getParam(String key) {
+        return getParameters().get(key);
+    }
+
+    public String getURLPath() {
         return protocol + "://" + host + ":" + port + "/" + path;
     }
 
     public String getFullURL() {
-        String url = getURL();
+        String url = getURLPath();
         if (parameters == null || parameters.isEmpty()) {
             return url;
         }

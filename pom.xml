@@ -23,7 +23,7 @@
         <junit-jupiter.version>RELEASE</junit-jupiter.version>
         <netty.version>4.1.52.Final</netty.version>
         <zookeeper.version>3.6.2</zookeeper.version>
-        <consul.version>1.4.5</consul.version>
+        <consul.version>1.4.2</consul.version>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -81,12 +81,21 @@
                 <version>${zookeeper.version}</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/com.ecwid.consul/consul-api -->
+            <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
             <dependency>
-                <groupId>com.ecwid.consul</groupId>
-                <artifactId>consul-api</artifactId>
-                <version>${consul.version}</version>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>5.1.0</version>
             </dependency>
+
+
+            <!-- https://mvnrepository.com/artifact/com.orbitz.consul/consul-client -->
+            <dependency>
+                <groupId>com.orbitz.consul</groupId>
+                <artifactId>consul-client</artifactId>
+                <version>1.4.2</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.google.guava</groupId>

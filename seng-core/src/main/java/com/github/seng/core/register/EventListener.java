@@ -7,5 +7,5 @@ package com.github.seng.core.register;
  */
 public interface EventListener {
 
-    void onEvent(Object context);
+    void onEvent(LocalRegisterService.URLChanged context);
 }

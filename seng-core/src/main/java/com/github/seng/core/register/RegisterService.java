@@ -29,30 +29,30 @@ public interface RegisterService {
     void unregister(URL url);
 
     /**
-     * lookup serviceName for urls
+     * lookup url for urls
      *
-     * @param serviceName : serviceName
+     * @param url : url
      * @return java.util.List<com.github.seng.core.rpc.URL>
      * @author wangyongxu
      */
-    List<URL> lookup(String serviceName);
+    List<URL> lookup(URL url);
 
     /**
      * subscribe service
      *
-     * @param serviceName   : serviceName
+     * @param url           : url
      * @param eventListener : eventListener
      * @author wangyongxu
      */
-    void subscribe(String serviceName, EventListener eventListener);
+    void subscribe(URL url, EventListener eventListener);
 
     /**
      * unsubscribe service
      *
-     * @param serviceName   : serviceName
+     * @param url           : serviceName
      * @param eventListener : eventListener
      * @author wangyongxu
      */
-    void unsubscribe(String serviceName, EventListener eventListener);
+    void unsubscribe(URL url, EventListener eventListener);
 
 }

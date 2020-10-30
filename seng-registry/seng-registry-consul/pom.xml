@@ -12,10 +12,16 @@
     <artifactId>seng-registry-consul</artifactId>
 
     <dependencies>
+
         <dependency>
-            <groupId>com.ecwid.consul</groupId>
-            <artifactId>consul-api</artifactId>
+            <groupId>com.github</groupId>
+            <artifactId>seng-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.orbitz.consul</groupId>
+            <artifactId>consul-client</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
