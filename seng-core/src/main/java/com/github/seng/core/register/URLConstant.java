@@ -14,4 +14,6 @@ public interface URLConstant {
     String PROVIDERS_CATEGORY = "providers";
 
     String CONSUMERS_CATEGORY = "consumers";
+
+    String CHECK_PASS_INTERVAL = "consul-check-pass-interval";
 }

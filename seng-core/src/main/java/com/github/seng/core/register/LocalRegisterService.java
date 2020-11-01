@@ -17,6 +17,7 @@ public class LocalRegisterService implements RegisterService {
     // TODO: 2020-10-30 09:39:03 线程池配置 by wangyongxu
     ExecutorService executorService = Executors.newFixedThreadPool(1);
 
+    // TODO: 这里的key是serviceName还是具体的url，下面不统一。
     protected Map<String, Set<URL>> cache = new HashMap<>();
 
     protected Map<URL, Set<EventListener>> listenerMap = new HashMap<>();
@@ -65,7 +66,7 @@ public class LocalRegisterService implements RegisterService {
 
     @Override
     public List<URL> lookup(URL url) {
-        return new ArrayList<>(cache.getOrDefault(url, Collections.emptySet()));
+        return new ArrayList<>(cache.getOrDefault(getServiceKey(url), Collections.emptySet()));
     }
 
     private class NotifyWorker implements Runnable {
@@ -79,6 +80,7 @@ public class LocalRegisterService implements RegisterService {
 
         @Override
         public void run() {
+            // TODO: 这里绑定的监听器是针对某个URL的，为什么要把所有seviceKey对应的URL都传过去，是不是这里监听器的key也需要改变一下
             Set<EventListener> listeners = listenerMap.get(url);
             if (listeners != null && !listeners.isEmpty()) {
                 for (EventListener listener : listeners) {
