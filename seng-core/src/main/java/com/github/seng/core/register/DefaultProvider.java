@@ -1,11 +1,9 @@
 package com.github.seng.core.register;
 
 import com.github.seng.core.rpc.URL;
-import com.github.seng.core.rpc.exception.ServiceMethodNotExistedException;
+import com.github.seng.core.rpc.exception.ServiceNoSuchMethodException;
 import com.github.seng.core.transport.ApiResult;
 import com.github.seng.core.transport.Invocation;
-import com.github.seng.core.transport.Request;
-import com.github.seng.core.transport.Response;
 
 import java.lang.reflect.Method;
 
@@ -35,25 +33,16 @@ public class DefaultProvider<T> extends AbstractProvider<T> {
     }
 
     @Override
-    public Response call(Request request) {
-        Invocation invocation = request.getBody();
+    public ApiResult call(Invocation invocation) {
         Method method = lookupMethod(invocation.getMethodName(), invocation.getArgsDesc());
-        Response response = new Response();
-
         if (method == null) {
-            ApiResult apiResult = ApiResult.exception(new ServiceMethodNotExistedException(invocation.toString() + " not existed"));
-            response.setBody(apiResult);
-            return response;
+            return ApiResult.exception(new ServiceNoSuchMethodException(invocation.toString() + " not existed"));
         }
         try {
             Object result = method.invoke(impl, invocation.getArgs());
-            ApiResult apiResult = ApiResult.success(result);
-            response.setBody(apiResult);
-            return response;
+            return ApiResult.success(result);
         } catch (Exception e) {
-            ApiResult apiResult = ApiResult.exception(e);
-            response.setBody(apiResult);
-            return response;
+            return ApiResult.exception(e);
         }
     }
 }

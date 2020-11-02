@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author wangyongxu
  */
-public abstract class AbstractProvider<T> implements Provider<T>, Consumer {
+public abstract class AbstractProvider<T> implements Provider<T> {
 
     protected Class<T> cls;
 
@@ -27,7 +27,8 @@ public abstract class AbstractProvider<T> implements Provider<T>, Consumer {
         init();
     }
 
-    protected void init() {
+    @Override
+    public void init() {
         methodMap = ReflectUtils.getMethodListDesc(cls);
         isAvailable = true;
     }

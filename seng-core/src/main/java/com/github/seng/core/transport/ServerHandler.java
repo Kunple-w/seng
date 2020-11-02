@@ -1,6 +1,6 @@
 package com.github.seng.core.transport;
 
-import com.github.seng.core.exception.SengRuntimeException;
+import com.github.seng.core.register.Provider;
 import com.github.seng.core.rpc.exception.ServiceNotRegisterException;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
@@ -8,8 +8,6 @@ import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,10 +20,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ServerHandler extends ChannelDuplexHandler {
     private static final Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
-    private static final Map<String, Object> serviceMap = new ConcurrentHashMap<>();
+    private static final Map<String, Provider<?>> map = new ConcurrentHashMap<>();
 
-    public void registerService(Object service) {
-        serviceMap.put(service.getClass().getInterfaces()[0].getName(), service);
+    public void registerProvider(Provider<?> provider) {
+        map.put(provider.getInterface().getName(), provider);
+    }
+
+    public void unregisterProvider(Provider<?> provider) {
+        map.remove(provider.getInterface().getName());
     }
 
     @Override
@@ -33,7 +35,7 @@ public class ServerHandler extends ChannelDuplexHandler {
         logger.info("收到消息: {}", msg);
         if (msg instanceof Request) {
             Request request = (Request) msg;
-            Object body = handleRequest(request);
+            ApiResult body = handleRequest(request);
             Response response = new Response(request, body);
             ctx.channel().writeAndFlush(response);
             return;
@@ -41,25 +43,20 @@ public class ServerHandler extends ChannelDuplexHandler {
         super.channelRead(ctx, msg);
     }
 
-    private Object handleRequest(Request request) {
+    private ApiResult handleRequest(Request request) {
         Invocation invocation = request.getBody();
         String serviceName = invocation.getServiceName();
-        Method method = Invocations.parseMethod(invocation);
-        Object service = getService(serviceName);
-        if (service == null) {
+        Provider<?> provider = getService(serviceName);
+        if (provider == null) {
             throw new ServiceNotRegisterException(serviceName + " not existed");
         }
-        try {
-            logger.info("service find: {}", service);
-            Object result = method.invoke(service, invocation.getArgs());
-            logger.info("service invoke result: {}", result);
-            return result;
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new SengRuntimeException(e);
-        }
+        logger.info("provider find: {}", provider);
+        ApiResult apiResult = provider.call(request.getBody());
+        logger.info("provider call result: {}", apiResult);
+        return apiResult;
     }
 
-    private Object getService(String serviceName) {
-        return serviceMap.get(serviceName);
+    private Provider<?> getService(String serviceName) {
+        return map.get(serviceName);
     }
 }

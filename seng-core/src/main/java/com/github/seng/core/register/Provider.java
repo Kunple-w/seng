@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
  *
  * @author wangyongxu
  */
-public interface Provider<T> extends Node {
+public interface Provider<T> extends Node, Consumer {
 
 
     /**
@@ -23,7 +23,7 @@ public interface Provider<T> extends Node {
      * lookup method
      *
      * @param methodName : method name
-     * @param paramDesc : param desc
+     * @param paramDesc  : param desc
      * @return Java method
      * @author wangyongxu
      */

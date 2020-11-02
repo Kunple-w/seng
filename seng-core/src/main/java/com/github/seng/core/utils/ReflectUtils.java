@@ -24,6 +24,10 @@ public class ReflectUtils {
         }
     }
 
+    public static String getClassName(Class<?> clazz) {
+        return clazz.getName();
+    }
+
     public static Method getMethod(Class<?> className, String methodName, Class<?>[] args) {
         return MethodUtils.getMatchingMethod(className, methodName, args);
     }
@@ -47,6 +51,14 @@ public class ReflectUtils {
             sj.add(parameterType.getTypeName());
         }
         return getMethodSignature(methodName, sj.toString());
+    }
+    public static String getClassMethodNames(Class<?> clazz) {
+        Map<String, Method> methodListDesc = getMethodListDesc(clazz);
+        StringJoiner sj = new StringJoiner(",");
+        for (Map.Entry<String, Method> entry : methodListDesc.entrySet()) {
+            sj.add(entry.getValue().getName());
+        }
+        return sj.toString();
     }
 
     public static Map<String, Method> getMethodListDesc(Class<?> cls) {

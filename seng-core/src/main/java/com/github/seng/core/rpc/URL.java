@@ -29,17 +29,27 @@ public class URL {
     // interfaceName
     private String path;
 
+    private String username;
+
+    private String password;
+
     private Map<String, String> parameters;
 
     public URL(String protocol, String host, int port, String path) {
-        this(protocol, host, port, path, new HashMap<>());
+        this(protocol, host, port, path, null, null, new HashMap<>());
     }
 
-    public URL(String protocol, String host, int port, String path, Map<String, String> parameters) {
+    public URL(String protocol, String host, int port, String username, String password, String path) {
+        this(protocol, host, port, path, username, password, new HashMap<>());
+    }
+
+    public URL(String protocol, String host, int port, String path, String username, String password, Map<String, String> parameters) {
         this.protocol = protocol;
         this.host = host;
         this.port = port;
         this.path = path;
+        this.username = username;
+        this.password = password;
         this.parameters = parameters;
     }
 
@@ -53,10 +63,20 @@ public class URL {
         String host;
         int port;
         String path;
+        String username = null;
+        String password = null;
         int protocolIdx = url.indexOf("://");
         protocol = url.substring(0, protocolIdx);
         String noProtocol = url.substring(protocolIdx + 3);
         String hostAndPort = noProtocol.substring(0, noProtocol.indexOf("/"));
+        if (hostAndPort.contains("@")) {
+            String[] split = hostAndPort.split("@");
+            String principal = split[0];
+            String[] userPwd = principal.split(":");
+            username = userPwd[0];
+            password = userPwd[1];
+            hostAndPort = split[1];
+        }
         if (hostAndPort.contains(":")) {
             String[] parts = hostAndPort.split(":");
             host = parts[0];
@@ -67,7 +87,7 @@ public class URL {
         }
         path = StringUtils.substringBetween(noProtocol, "/", "?");
 
-        return new URL(protocol, host, port, path, param);
+        return new URL(protocol, host, port, path, username, password, param);
     }
 
     private static Map<String, String> parseParams(String paramString) {
@@ -99,6 +119,10 @@ public class URL {
 
     public String getParam(String key) {
         return getParameters().get(key);
+    }
+
+    public String setParam(String key, String value) {
+        return getParameters().put(key, value);
     }
 
     public String getURLPath() {

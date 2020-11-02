@@ -1,5 +1,7 @@
 package com.github.seng.core.transport;
 
+import com.github.seng.core.UserService;
+import com.github.seng.core.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

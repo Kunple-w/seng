@@ -43,7 +43,7 @@ public class Server {
 
     public void registerService(Object service) {
 //        ServerHandler serverHandler = channel.pipeline().get(ServerHandler.class);
-        serverHandler.registerService(service);
+//        serverHandler.registerService(service);
     }
 
     /**

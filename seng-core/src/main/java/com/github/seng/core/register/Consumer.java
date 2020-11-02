@@ -1,7 +1,7 @@
 package com.github.seng.core.register;
 
-import com.github.seng.core.transport.Request;
-import com.github.seng.core.transport.Response;
+import com.github.seng.core.transport.ApiResult;
+import com.github.seng.core.transport.Invocation;
 
 /**
  * consumer
@@ -10,5 +10,5 @@ import com.github.seng.core.transport.Response;
  */
 public interface Consumer extends Node {
 
-    Response call(Request request);
+    ApiResult call(Invocation invocation);
 }

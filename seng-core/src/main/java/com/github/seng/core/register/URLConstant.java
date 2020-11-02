@@ -9,11 +9,16 @@ public interface URLConstant {
      */
     String APPLICATION_KEY = "application";
 
-    String CATEGORY_KEY= "category";
+    String CATEGORY_KEY = "category";
 
     String PROVIDERS_CATEGORY = "providers";
 
     String CONSUMERS_CATEGORY = "consumers";
+
+    String METHOD_KEY = "methods";
+
+    String TIMEOUT_KEY = "timeout";
+
 
     String CHECK_PASS_INTERVAL = "consul-check-pass-interval";
 }

@@ -1,4 +1,4 @@
-package com.github.seng.core.transport;
+package com.github.seng.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String hello(String msg) {
-        logger.info("hello {}", msg);
         return "hello " + msg;
+    }
+
+    @Override
+    public void hi(String name, String msg) {
+        logger.info("hi, {}, {}", name, msg);
     }
 }

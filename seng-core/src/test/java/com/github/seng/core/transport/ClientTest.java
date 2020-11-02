@@ -1,5 +1,6 @@
 package com.github.seng.core.transport;
 
+import com.github.seng.core.UserService;
 import com.github.seng.core.rpc.Reference;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

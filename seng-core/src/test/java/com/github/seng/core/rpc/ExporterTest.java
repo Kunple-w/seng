@@ -1,9 +1,9 @@
 package com.github.seng.core.rpc;
 
+import com.github.seng.core.UserService;
+import com.github.seng.core.UserServiceImpl;
 import com.github.seng.core.transport.Client;
 import com.github.seng.core.transport.Server;
-import com.github.seng.core.transport.UserService;
-import com.github.seng.core.transport.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,5 +35,17 @@ class ExporterTest {
         UserService refer = reference.refer(client, UserService.class);
         String hello = refer.hello("seng!");
         logger.info("result: {}", hello);
+    }
+
+    @Test
+    void testExport() {
+    }
+
+    @Test
+    void testExport1() {
+    }
+
+    @Test
+    void register() {
     }
 }
