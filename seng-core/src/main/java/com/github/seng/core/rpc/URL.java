@@ -57,7 +57,10 @@ public class URL {
         if (StringUtils.isBlank(url)) {
             throw new IllegalArgumentException("url is blank?");
         }
-        String paramString = url.substring(url.indexOf("?") + 1);
+        String paramString = "";
+        if (url.contains("?")) {
+            paramString = url.substring(url.indexOf("?") + 1);
+        }
         Map<String, String> param = parseParams(paramString);
         String protocol;
         String host;
@@ -68,6 +71,9 @@ public class URL {
         int protocolIdx = url.indexOf("://");
         protocol = url.substring(0, protocolIdx);
         String noProtocol = url.substring(protocolIdx + 3);
+        if (!noProtocol.contains("/")) {
+            noProtocol = noProtocol + "/";
+        }
         String hostAndPort = noProtocol.substring(0, noProtocol.indexOf("/"));
         if (hostAndPort.contains("@")) {
             String[] split = hostAndPort.split("@");
@@ -85,13 +91,21 @@ public class URL {
             host = hostAndPort;
             port = -1;
         }
-        path = StringUtils.substringBetween(noProtocol, "/", "?");
+        path = parsePath(noProtocol);
 
         return new URL(protocol, host, port, path, username, password, param);
     }
 
+    private static String parsePath(String noProtocol) {
+        String path = StringUtils.substringBetween(noProtocol, "/", "?");
+        return path == null ? "/" : path;
+    }
+
     private static Map<String, String> parseParams(String paramString) {
         Map<String, String> params = new HashMap<>();
+        if (StringUtils.isEmpty(paramString)) {
+            return params;
+        }
         String[] parts = paramString.split("&");
         for (String part : parts) {
             String[] kv = part.split("=");
@@ -126,7 +140,11 @@ public class URL {
     }
 
     public String getURLPath() {
-        return protocol + "://" + host + ":" + port + "/" + path;
+        return protocol + "://" + host + ":" + port + path;
+    }
+
+    public String getUri() {
+        return protocol + "://" + host + ":" + port;
     }
 
     public String getFullURL() {
@@ -161,6 +179,6 @@ public class URL {
 
     @Override
     public String toString() {
-        return getFullURL();
+        return getUri();
     }
 }

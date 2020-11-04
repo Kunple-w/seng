@@ -1,7 +1,10 @@
 package com.github.seng.core.rpc.config;
 
+import com.github.seng.core.register.RegisterService;
+import com.github.seng.core.register.RegistryFactory;
 import com.github.seng.core.register.URLConstant;
 import com.github.seng.core.rpc.URL;
+import com.github.seng.core.spi.ExtensionLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
      */
     private Class<T> interfaceClazz;
 
+
     public ReferenceConfig(Class<T> interfaceClazz, RegistryConfig registryConfig) {
         this.interfaceClazz = interfaceClazz;
         this.registryConfigs.add(registryConfig);
@@ -30,6 +34,8 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
     protected List<RegistryConfig> registryConfigs = new ArrayList<>();
 
     protected List<URL> registryUrls = new ArrayList<>();
+
+    protected List<RegisterService> registerServices = new ArrayList<>();
 
 
     @Override
@@ -56,7 +62,16 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
 
     public void init() {
         loadRegistryURL();
+        loadRegistryList();
+        // TODO: 2020-11-04 06:57:17 export service by wangyongxu
         normal();
+    }
+
+    protected void loadRegistryList() {
+        ExtensionLoader<RegistryFactory> extensionLoader = ExtensionLoader.getExtensionLoader(RegistryFactory.class);
+        for (URL registryUrl : registryUrls) {
+            registerServices.add(extensionLoader.getExtension(registryUrl.getProtocol()).getRegistry(registryUrl));
+        }
     }
 
     public void normal() {

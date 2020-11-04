@@ -2,9 +2,7 @@ package com.github.seng.registry.zookeeper;
 
 import com.github.seng.core.exception.SengRuntimeException;
 import com.github.seng.core.register.EventListener;
-import com.github.seng.core.register.LocalRegisterService;
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.URLConstant;
+import com.github.seng.core.register.*;
 import com.github.seng.core.rpc.URL;
 import com.github.seng.core.spi.SPIAlias;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +21,10 @@ import java.util.stream.Collectors;
  * @author wangyongxu
  */
 @SPIAlias(alias = "zookeeper")
-public class ZookeeperRegistry implements RegisterService {
+public class ZookeeperRegistry implements RegisterService, Node {
+
+    private URL url;
+    protected State state = State.READY;
 
     private CuratorFramework client;
     private String root;
@@ -34,12 +35,32 @@ public class ZookeeperRegistry implements RegisterService {
 
     public ZookeeperRegistry(CuratorFramework client) {
         this.client = client;
+    }
 
+    @Override
+    public URL getURL() {
+        return url;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return State.NORMAL == state;
+    }
+
+    @Override
+    public void init() {
+        startClientIfNeed();
+        state = State.NORMAL;
+    }
+
+    @Override
+    public void destroy() {
+        state = State.FINISH;
     }
 
     private void startClientIfNeed() {
-        CuratorFrameworkState state = client.getState();
-        if (state != CuratorFrameworkState.LATENT) {
+        CuratorFrameworkState curatorFrameworkState = client.getState();
+        if (curatorFrameworkState != CuratorFrameworkState.LATENT) {
             client.start();
         }
     }
@@ -58,7 +79,10 @@ public class ZookeeperRegistry implements RegisterService {
     }
 
     private String toParentPath(URL url) {
-        return getRoot() + PATH_SEPARATOR + url.getPath() + PATH_SEPARATOR + url.getParam(URLConstant.CATEGORY_KEY, URLConstant.PROVIDERS_CATEGORY);
+        if (url.getPath().endsWith(PATH_SEPARATOR)) {
+            return getRoot() + url.getPath() + url.getParam(URLConstant.CATEGORY_KEY, URLConstant.PROVIDERS_CATEGORY);
+        }
+        return getRoot() + url.getPath() + PATH_SEPARATOR + url.getParam(URLConstant.CATEGORY_KEY, URLConstant.PROVIDERS_CATEGORY);
     }
 
     public String getRoot() {
@@ -87,7 +111,7 @@ public class ZookeeperRegistry implements RegisterService {
             }
             return urls;
         } catch (Exception exception) {
-            throw new SengRuntimeException(exception);
+            return Collections.emptyList();
         }
     }
 

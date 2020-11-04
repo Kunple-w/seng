@@ -1,6 +1,7 @@
 package com.github.seng.core.rpc;
 
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,14 @@ class URLTest {
         URL url = new URL("seng", "localhost", 18080, "admin", "Hello1234", "com.github.seng.executor");
         assertEquals("admin", of.getUsername());
         assertEquals("Hello1234", of.getPassword());
+        assertEquals(of, url);
+    }
+
+    @Test
+    void testOf3() {
+        String str = "zookeeper://localhost:2181";
+        URL of = URL.of(str);
+        URL url = new URL("zookeeper", "localhost", 2181, "/");
         assertEquals(of, url);
     }
 }
