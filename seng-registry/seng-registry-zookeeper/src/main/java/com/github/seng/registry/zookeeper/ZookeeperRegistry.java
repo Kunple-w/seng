@@ -6,13 +6,13 @@ import com.github.seng.core.register.LocalRegisterService;
 import com.github.seng.core.register.RegisterService;
 import com.github.seng.core.register.URLConstant;
 import com.github.seng.core.rpc.URL;
+import com.github.seng.core.spi.SPIAlias;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.apache.curator.framework.recipes.cache.*;
 import org.apache.zookeeper.CreateMode;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 /**
  * @author wangyongxu
  */
+@SPIAlias(alias = "zookeeper")
 public class ZookeeperRegistry implements RegisterService {
 
     private CuratorFramework client;
