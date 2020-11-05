@@ -1,12 +1,14 @@
 package com.github.seng.core.register;
 
 import com.github.seng.core.rpc.URL;
+import com.github.seng.core.utils.PatternUtils;
 import com.github.seng.core.utils.ReflectUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author wangyongxu
@@ -42,9 +44,19 @@ public abstract class AbstractProvider<T> implements Provider<T> {
     @Override
     public Method lookupMethod(String methodName, String paramDesc) {
         String methodSignature = ReflectUtils.getMethodSignature(methodName, paramDesc);
-        return methodMap.get(methodSignature);
+        Method method = methodMap.get(methodSignature);
+        if (method != null) {
+            return method;
+        }
+        String reg = methodSignature.replace("null", ".*").replace("(", "\\(").replace(")", "\\)");
+        Optional<Map.Entry<String, Method>> optional = Optional.empty();
+        for (Map.Entry<String, Method> entry : methodMap.entrySet()) {
+            if (PatternUtils.matchers(reg, entry.getKey())) {
+                optional = Optional.of(entry);
+            }
+        }
+        return optional.map(Map.Entry::getValue).orElse(null);
     }
-
 
     @Override
     public boolean isAvailable() {

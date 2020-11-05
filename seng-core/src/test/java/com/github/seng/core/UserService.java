@@ -2,6 +2,8 @@ package com.github.seng.core;
 
 import com.github.seng.core.spi.SPI;
 
+import java.util.List;
+
 /**
  * @author wangyongxu
  */
@@ -10,4 +12,7 @@ public interface UserService {
     String hello(String msg);
 
     void hi(String name, String msg);
+    void hi(String name, String msg, Integer count);
+
+    List<String> search(String msg, Integer size) throws Exception;
 }

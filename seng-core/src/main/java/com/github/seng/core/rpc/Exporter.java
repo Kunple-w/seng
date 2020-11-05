@@ -1,9 +1,6 @@
 package com.github.seng.core.rpc;
 
-import com.github.seng.core.register.DefaultProvider;
-import com.github.seng.core.register.Provider;
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.URLConstant;
+import com.github.seng.core.register.*;
 import com.github.seng.core.transport.Server;
 import com.github.seng.core.utils.NetUtils;
 import com.github.seng.core.utils.ReflectUtils;
@@ -14,9 +11,9 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author wangyongxu
  */
-public class Exporter<T> {
+public class Exporter<T>  extends AbstractNode {
 
-    public static Map<Class<?>, Provider<?>> providerMap = new ConcurrentHashMap<>();
+    public Map<Class<T>, Provider<T>> providerMap = new ConcurrentHashMap<>();
 
     private String protocol;
 
@@ -26,28 +23,24 @@ public class Exporter<T> {
 
     private Server server;
 
-    private RegisterService registerService;
-
-    public void export(Server server, Object service) {
-        server.registerService(service);
+    public Exporter(URL url) {
+        super(url);
     }
+
 
     public void export(Class<T> interfaceClazz, T impl) {
         URL url = buildUrl(interfaceClazz);
         DefaultProvider<T> provider = new DefaultProvider<>(url, interfaceClazz, impl);
         providerMap.put(interfaceClazz, provider);
-        registerService.register(url);
+        server.registerProvider(provider);
     }
 
     public void unExport(Class<T> interfaceClazz) {
-        URL url = buildUrl(interfaceClazz);
-        registerService.unregister(url);
+        Provider<T> provider = providerMap.get(interfaceClazz);
+        if (provider != null) {
+            server.unregisterProvider(provider);
+        }
     }
-
-    public void register(Class<T> interfaceClazz, T service) {
-//        registerService.register();
-    }
-
 
     private String getHostToBind() {
         return NetUtils.getLocalHost();

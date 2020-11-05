@@ -37,11 +37,15 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
 
     protected List<RegisterService> registerServices = new ArrayList<>();
 
+    protected URL expect;
 
     @Override
     public T get() {
         if (state == State.READY) {
             init();
+        }
+        for (RegisterService registerService : registerServices) {
+            List<URL> lookup = registerService.lookup(expect);
         }
         return null;
     }
@@ -65,6 +69,12 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
         loadRegistryList();
         // TODO: 2020-11-04 06:57:17 export service by wangyongxu
         normal();
+    }
+
+    protected void export(URL url) {
+        for (RegisterService registerService : registerServices) {
+            registerService.register(url);
+        }
     }
 
     protected void loadRegistryList() {

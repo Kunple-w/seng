@@ -1,6 +1,7 @@
 package com.github.seng.core.transport;
 
 import com.github.seng.core.exception.SengRuntimeException;
+import com.github.seng.core.register.Provider;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -44,6 +45,14 @@ public class Server {
     public void registerService(Object service) {
 //        ServerHandler serverHandler = channel.pipeline().get(ServerHandler.class);
 //        serverHandler.registerService(service);
+    }
+
+    public void registerProvider(Provider<?> provider) {
+        serverHandler.registerProvider(provider);
+    }
+
+    public void unregisterProvider(Provider<?> provider) {
+        serverHandler.unregisterProvider(provider);
     }
 
     /**

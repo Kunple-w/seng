@@ -15,20 +15,20 @@ public class ApiResult {
 
     private int code;
 
-    private Exception exception;
+    private Throwable throwable;
 
-    public ApiResult(Object value, int code, Exception exception) {
+    public ApiResult(Object value, int code, Throwable throwable) {
         this.value = value;
         this.code = code;
-        this.exception = exception;
+        this.throwable = throwable;
     }
 
     public static ApiResult success(Object value) {
         return new ApiResult(value, SUCCESS, null);
     }
 
-    public static ApiResult exception(Exception exception) {
-        return new ApiResult(null, FAILED, exception);
+    public static ApiResult exception(Throwable throwable) {
+        return new ApiResult(null, FAILED, throwable);
     }
 
     public boolean isSuccess() {

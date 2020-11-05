@@ -2,8 +2,9 @@ package com.github.seng.core.transport;
 
 import lombok.Data;
 
-import java.lang.reflect.Method;
 import java.util.StringJoiner;
+
+import static com.github.seng.core.utils.ReflectUtils.EMPTY_PARAM;
 
 /**
  * @author wangyongxu
@@ -17,10 +18,15 @@ public class Invocation {
 
     private Object[] args;
 
+
     public String getArgsDesc() {
         StringJoiner sj = new StringJoiner(",");
         for (Object arg : args) {
-            sj.add(arg.getClass().getName());
+            if (arg == null) {
+                sj.add(null);
+            }else {
+                sj.add(arg.getClass().getName());
+            }
         }
         return sj.toString();
     }

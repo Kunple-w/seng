@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Method;
 
+import static com.github.seng.core.utils.ReflectUtils.EMPTY_PARAM;
+
 /**
  * @author wangyongxu
  */

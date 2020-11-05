@@ -18,11 +18,11 @@ class ExporterTest {
 
     @Test
     void export() throws InterruptedException {
-        Exporter exporter = new Exporter();
-        Server server = new Server();
-        server.start(new InetSocketAddress(port));
-        exporter.export(server, new UserServiceImpl());
-        TimeUnit.HOURS.sleep(100);
+//        Exporter exporter = new Exporter();
+//        Server server = new Server();
+//        server.start(new InetSocketAddress(port));
+//        exporter.export(server, new UserServiceImpl());
+//        TimeUnit.HOURS.sleep(100);
     }
 
     @Test

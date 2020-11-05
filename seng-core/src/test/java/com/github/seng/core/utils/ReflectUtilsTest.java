@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.github.seng.core.utils.ReflectUtils.EMPTY_PARAM;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReflectUtilsTest {
     private static final Logger logger = LoggerFactory.getLogger(ReflectUtilsTest.class);
@@ -27,6 +28,12 @@ class ReflectUtilsTest {
     void getClassName() {
         String className = ReflectUtils.getClassName(UserService.class);
         assertEquals("com.github.seng.core.UserService", className);
+    }
+
+    @Test
+    void getClassNameVoid() {
+        Class<?> aClass = ReflectUtils.getClass(EMPTY_PARAM);
+        assertEquals(void.class, aClass);
     }
 
     @Test

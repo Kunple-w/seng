@@ -5,6 +5,7 @@ import com.github.seng.core.rpc.exception.ServiceNoSuchMethodException;
 import com.github.seng.core.transport.ApiResult;
 import com.github.seng.core.transport.Invocation;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -41,6 +42,11 @@ public class DefaultProvider<T> extends AbstractProvider<T> {
         try {
             Object result = method.invoke(impl, invocation.getArgs());
             return ApiResult.success(result);
+        } catch (InvocationTargetException e) {
+            if (e.getTargetException() != null) {
+                return ApiResult.exception(e.getTargetException());
+            }
+            return ApiResult.exception(e);
         } catch (Exception e) {
             return ApiResult.exception(e);
         }
