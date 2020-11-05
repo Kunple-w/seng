@@ -4,8 +4,6 @@ import lombok.Data;
 
 import java.util.StringJoiner;
 
-import static com.github.seng.core.utils.ReflectUtils.EMPTY_PARAM;
-
 /**
  * @author wangyongxu
  */

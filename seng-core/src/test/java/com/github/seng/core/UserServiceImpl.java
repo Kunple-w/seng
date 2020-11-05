@@ -1,6 +1,6 @@
 package com.github.seng.core;
 
-import com.github.seng.core.spi.SPIAlias;
+import com.github.seng.common.spi.SPIAlias;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -2,7 +2,7 @@ package com.github.seng.core.register;
 
 import com.github.seng.core.UserService;
 import com.github.seng.core.UserServiceImpl;
-import com.github.seng.core.rpc.URL;
+import com.github.seng.common.URL;
 import com.github.seng.core.rpc.exception.ServiceNoSuchMethodException;
 import com.github.seng.core.transport.ApiResult;
 import com.github.seng.core.transport.Invocation;

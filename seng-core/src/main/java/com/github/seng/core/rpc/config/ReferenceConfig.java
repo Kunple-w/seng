@@ -1,10 +1,11 @@
 package com.github.seng.core.rpc.config;
 
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.RegistryFactory;
-import com.github.seng.core.register.URLConstant;
-import com.github.seng.core.rpc.URL;
-import com.github.seng.core.spi.ExtensionLoader;
+import com.github.seng.common.LifeCycle;
+import com.github.seng.common.URLConstant;
+import com.github.seng.common.URL;
+import com.github.seng.common.spi.ExtensionLoader;
+import com.github.seng.registry.api.RegisterService;
+import com.github.seng.registry.api.RegistryFactory;
 
 import java.util.ArrayList;
 import java.util.List;

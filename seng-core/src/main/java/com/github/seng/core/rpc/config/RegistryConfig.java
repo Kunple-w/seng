@@ -1,7 +1,7 @@
 package com.github.seng.core.rpc.config;
 
-import com.github.seng.core.register.URLConstant;
-import com.github.seng.core.rpc.URL;
+import com.github.seng.common.URLConstant;
+import com.github.seng.common.URL;
 import lombok.Data;
 
 /**

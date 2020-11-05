@@ -1,10 +1,10 @@
 package com.github.seng.registry.zookeeper;
 
-import com.github.seng.core.register.AbstractRegistryFactory;
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.exception.RegistryCreatedFailed;
-import com.github.seng.core.rpc.URL;
-import com.github.seng.core.spi.SPIAlias;
+import com.github.seng.common.spi.SPIAlias;
+import com.github.seng.registry.api.AbstractRegistryFactory;
+import com.github.seng.registry.api.RegisterService;
+import com.github.seng.registry.api.exception.RegistryCreatedFailed;
+import com.github.seng.common.URL;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;

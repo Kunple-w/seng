@@ -1,6 +1,6 @@
 package com.github.seng.core;
 
-import com.github.seng.core.spi.SPI;
+import com.github.seng.common.spi.SPI;
 
 import java.util.List;
 

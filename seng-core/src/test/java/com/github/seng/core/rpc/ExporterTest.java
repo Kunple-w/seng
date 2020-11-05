@@ -1,5 +1,6 @@
 package com.github.seng.core.rpc;
 
+import com.github.seng.common.URL;
 import com.github.seng.core.UserService;
 import com.github.seng.core.UserServiceImpl;
 import com.github.seng.core.transport.Client;

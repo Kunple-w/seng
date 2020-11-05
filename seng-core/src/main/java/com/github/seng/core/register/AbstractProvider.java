@@ -1,8 +1,8 @@
 package com.github.seng.core.register;
 
-import com.github.seng.core.rpc.URL;
-import com.github.seng.core.utils.PatternUtils;
-import com.github.seng.core.utils.ReflectUtils;
+import com.github.seng.common.URL;
+import com.github.seng.common.utils.PatternUtils;
+import com.github.seng.common.utils.ReflectUtils;
 
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;

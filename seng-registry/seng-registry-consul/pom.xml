@@ -15,13 +15,26 @@
 
         <dependency>
             <groupId>com.github</groupId>
-            <artifactId>seng-core</artifactId>
+            <artifactId>seng-registry-api</artifactId>
         </dependency>
         <dependency>
             <groupId>com.orbitz.consul</groupId>
             <artifactId>consul-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>seng-common</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>seng-registry-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

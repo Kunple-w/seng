@@ -1,6 +1,6 @@
 package com.github.seng.core.transport;
 
-import com.github.seng.core.exception.SengRuntimeException;
+import com.github.seng.common.exception.SengRuntimeException;
 import com.github.seng.core.serialize.Serializer;
 import com.github.seng.core.serialize.SerializerFactory;
 import io.netty.buffer.ByteBuf;

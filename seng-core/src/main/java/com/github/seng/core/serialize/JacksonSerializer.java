@@ -2,7 +2,7 @@ package com.github.seng.core.serialize;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.seng.core.exception.SengRuntimeException;
+import com.github.seng.common.exception.SengRuntimeException;
 
 import java.io.IOException;
 

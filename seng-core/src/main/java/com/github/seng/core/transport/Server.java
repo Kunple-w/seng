@@ -1,6 +1,6 @@
 package com.github.seng.core.transport;
 
-import com.github.seng.core.exception.SengRuntimeException;
+import com.github.seng.common.exception.SengRuntimeException;
 import com.github.seng.core.register.Provider;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

@@ -1,10 +1,10 @@
 package com.github.seng.core.transport;
 
-import com.github.seng.core.exception.SengRuntimeException;
-import com.github.seng.core.exception.UnsupportedProtocolException;
+import com.github.seng.common.exception.SengRuntimeException;
+import com.github.seng.common.exception.UnsupportedProtocolException;
 import com.github.seng.core.serialize.Serializer;
 import com.github.seng.core.serialize.SerializerFactory;
-import com.github.seng.core.utils.ReflectUtils;
+import com.github.seng.common.utils.ReflectUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;

@@ -1,5 +1,6 @@
 package com.github.seng.core.spi;
 
+import com.github.seng.common.spi.ExtensionLoader;
 import com.github.seng.core.UserService;
 import com.github.seng.core.UserServiceImpl;
 import org.junit.jupiter.api.Test;

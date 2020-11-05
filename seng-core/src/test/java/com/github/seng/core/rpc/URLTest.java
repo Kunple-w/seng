@@ -1,7 +1,7 @@
 package com.github.seng.core.rpc;
 
+import com.github.seng.common.URL;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

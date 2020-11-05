@@ -1,8 +1,8 @@
 package com.github.seng.registry.zookeeper;
 
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.RegistryFactory;
-import com.github.seng.core.rpc.URL;
+import com.github.seng.common.URL;
+import com.github.seng.registry.api.RegisterService;
+import com.github.seng.registry.api.RegistryFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

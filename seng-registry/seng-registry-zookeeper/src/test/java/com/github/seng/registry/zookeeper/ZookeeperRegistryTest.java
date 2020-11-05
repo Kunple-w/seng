@@ -1,8 +1,8 @@
 package com.github.seng.registry.zookeeper;
 
-import com.github.seng.core.register.EventListener;
-import com.github.seng.core.register.LocalRegisterService;
-import com.github.seng.core.rpc.URL;
+import com.github.seng.common.URL;
+import com.github.seng.registry.api.EventListener;
+import com.github.seng.registry.api.LocalRegisterService;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;

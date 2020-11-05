@@ -19,7 +19,12 @@
 
         <dependency>
             <groupId>com.github</groupId>
-            <artifactId>seng-core</artifactId>
+            <artifactId>seng-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>seng-registry-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.zookeeper</groupId>

@@ -1,10 +1,10 @@
 package com.github.seng.registry.consul;
 
-import com.github.seng.core.register.EventListener;
-import com.github.seng.core.register.LocalRegisterService;
-import com.github.seng.core.register.RegisterService;
-import com.github.seng.core.register.URLConstant;
-import com.github.seng.core.rpc.URL;
+import com.github.seng.common.URL;
+import com.github.seng.common.URLConstant;
+import com.github.seng.registry.api.EventListener;
+import com.github.seng.registry.api.LocalRegisterService;
+import com.github.seng.registry.api.RegisterService;
 import com.orbitz.consul.AgentClient;
 import com.orbitz.consul.Consul;
 import com.orbitz.consul.HealthClient;
@@ -16,7 +16,6 @@ import com.orbitz.consul.model.agent.Registration;
 import com.orbitz.consul.model.health.Service;
 import com.orbitz.consul.model.health.ServiceHealth;
 import org.apache.commons.lang3.StringUtils;
-
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

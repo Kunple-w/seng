@@ -1,5 +1,6 @@
 package com.github.seng.core.utils;
 
+import com.github.seng.common.utils.ReflectUtils;
 import com.github.seng.core.UserService;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -8,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import static com.github.seng.core.utils.ReflectUtils.EMPTY_PARAM;
+import static com.github.seng.common.utils.ReflectUtils.EMPTY_PARAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ReflectUtilsTest {

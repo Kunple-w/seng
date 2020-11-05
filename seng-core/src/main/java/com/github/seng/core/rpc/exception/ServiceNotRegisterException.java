@@ -1,6 +1,7 @@
 package com.github.seng.core.rpc.exception;
 
-import com.github.seng.core.exception.SengRuntimeException;
+
+import com.github.seng.common.exception.SengRuntimeException;
 
 /**
  * @author wangyongxu

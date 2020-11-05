@@ -1,5 +1,7 @@
 package com.github.seng.core.spi;
 
+import com.github.seng.common.spi.DefaultNameGenerator;
+import com.github.seng.common.spi.NameGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

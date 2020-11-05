@@ -12,4 +12,10 @@
     <artifactId>seng-registry-api</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github</groupId>
+            <artifactId>seng-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>
