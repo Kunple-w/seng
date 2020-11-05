@@ -6,12 +6,8 @@ import com.github.seng.core.rpc.URL;
  * @author wangyongxu
  */
 public abstract class AbstractNode implements Node {
-    private volatile State state;
-    private URL url;
-
-    public AbstractNode(URL url) {
-        this.url = url;
-    }
+    protected volatile State state;
+    protected URL url;
 
     @Override
     public URL getURL() {

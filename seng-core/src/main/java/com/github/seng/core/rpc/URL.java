@@ -101,6 +101,14 @@ public class URL {
         return path == null ? "/" : path;
     }
 
+    public void setPath(String path) {
+        if (path.startsWith("/")) {
+            this.path = path;
+        } else {
+            this.path = "/" + path;
+        }
+    }
+
     private static Map<String, String> parseParams(String paramString) {
         Map<String, String> params = new HashMap<>();
         if (StringUtils.isEmpty(paramString)) {

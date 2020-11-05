@@ -1,6 +1,9 @@
 package com.github.seng.core.rpc;
 
-import com.github.seng.core.register.*;
+import com.github.seng.core.register.AbstractNode;
+import com.github.seng.core.register.DefaultProvider;
+import com.github.seng.core.register.Provider;
+import com.github.seng.core.register.URLConstant;
 import com.github.seng.core.transport.Server;
 import com.github.seng.core.utils.NetUtils;
 import com.github.seng.core.utils.ReflectUtils;
@@ -9,27 +12,31 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * export service to server(remote)
+ *
  * @author wangyongxu
  */
-public class Exporter<T>  extends AbstractNode {
+public class Exporter<T> extends AbstractNode {
 
-    public Map<Class<T>, Provider<T>> providerMap = new ConcurrentHashMap<>();
+    public final Map<Class<T>, Provider<T>> providerMap = new ConcurrentHashMap<>();
 
     private String protocol;
-
-    private String host;
 
     private int port;
 
     private Server server;
 
-    public Exporter(URL url) {
-        super(url);
+    protected Class<T> interfaceClazz;
+
+    protected T impl;
+
+    public Exporter(Class<T> interfaceClazz, T impl) {
+        this.interfaceClazz = interfaceClazz;
+        this.impl = impl;
     }
 
-
-    public void export(Class<T> interfaceClazz, T impl) {
-        URL url = buildUrl(interfaceClazz);
+    public void export() {
+        url = buildUrl(interfaceClazz);
         DefaultProvider<T> provider = new DefaultProvider<>(url, interfaceClazz, impl);
         providerMap.put(interfaceClazz, provider);
         server.registerProvider(provider);
@@ -42,6 +49,7 @@ public class Exporter<T>  extends AbstractNode {
         }
     }
 
+
     private String getHostToBind() {
         return NetUtils.getLocalHost();
     }
@@ -52,6 +60,31 @@ public class Exporter<T>  extends AbstractNode {
         String methodNames = ReflectUtils.getClassMethodNames(interfaceClazz);
         URL url = new URL(protocol, localHost, port, className);
         url.getParameters().put(URLConstant.METHOD_KEY, methodNames);
+        url.setPath(interfaceClazz.getName());
         return url;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public void setServer(Server server) {
+        this.server = server;
     }
 }

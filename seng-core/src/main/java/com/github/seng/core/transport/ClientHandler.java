@@ -51,6 +51,7 @@ public class ClientHandler extends ChannelDuplexHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         SynchronousQueue<Response> synchronousQueue = queueMap.get(ctx.channel().id().toString());
         synchronousQueue.offer((Response) msg);
+        logger.info("客户当收到消息: {}", msg);
         super.channelRead(ctx, msg);
     }
 

@@ -18,11 +18,18 @@ class ExporterTest {
 
     @Test
     void export() throws InterruptedException {
-//        Exporter exporter = new Exporter();
-//        Server server = new Server();
-//        server.start(new InetSocketAddress(port));
-//        exporter.export(server, new UserServiceImpl());
-//        TimeUnit.HOURS.sleep(100);
+        Server server = new Server();
+        server.start(new InetSocketAddress(port));
+        UserServiceImpl userService = new UserServiceImpl();
+        Exporter<UserService> exporter = new Exporter<>(UserService.class, userService);
+        exporter.setProtocol("seng");
+        exporter.setPort(port);
+        exporter.setServer(server);
+
+        exporter.export();
+        URL url = exporter.getURL();
+        logger.info("url: {}", url.getFullURL());
+        TimeUnit.HOURS.sleep(100);
     }
 
     @Test
@@ -47,5 +54,13 @@ class ExporterTest {
 
     @Test
     void register() {
+    }
+
+    @Test
+    void testExport2() {
+    }
+
+    @Test
+    void unExport() {
     }
 }

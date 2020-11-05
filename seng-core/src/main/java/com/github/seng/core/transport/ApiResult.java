@@ -1,5 +1,6 @@
 package com.github.seng.core.transport;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -23,6 +24,9 @@ public class ApiResult {
         this.throwable = throwable;
     }
 
+    public ApiResult() {
+    }
+
     public static ApiResult success(Object value) {
         return new ApiResult(value, SUCCESS, null);
     }
@@ -31,6 +35,7 @@ public class ApiResult {
         return new ApiResult(null, FAILED, throwable);
     }
 
+    @JsonIgnore
     public boolean isSuccess() {
         return code == SUCCESS;
     }
