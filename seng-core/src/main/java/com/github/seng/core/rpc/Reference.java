@@ -9,10 +9,17 @@ import java.lang.reflect.Proxy;
 /**
  * @author wangyongxu
  */
-public class Reference {
+public class Reference<T> {
+    private final Client client;
+    private final Class<T> interfaceClass;
+
+    public Reference(Client client, Class<T> interfaceClass) {
+        this.client = client;
+        this.interfaceClass = interfaceClass;
+    }
 
     @SuppressWarnings("unchecked")
-    public <T> T refer(Client client, Class<T> interfaceClass) {
+    public T refer() {
         return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new RemoteInvocationHandler(client));
     }
 

@@ -35,8 +35,8 @@ class ClientTest {
         client.start(new InetSocketAddress(13232));
         TimeUnit.SECONDS.sleep(2);
 
-        Reference reference = new Reference();
-        UserService refer = reference.refer(client, UserService.class);
+        Reference<UserService> reference = new Reference<>(client, UserService.class);
+        UserService refer = reference.refer();
         String hello = refer.hello("remote, ");
         logger.info("result: {}", hello);
     }

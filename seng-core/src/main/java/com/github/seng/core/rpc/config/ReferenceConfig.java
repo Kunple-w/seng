@@ -4,9 +4,16 @@ import com.github.seng.common.LifeCycle;
 import com.github.seng.common.URLConstant;
 import com.github.seng.common.URL;
 import com.github.seng.common.spi.ExtensionLoader;
+import com.github.seng.core.rpc.Exporter;
+import com.github.seng.core.rpc.Reference;
+import com.github.seng.core.transport.Client;
+import com.github.seng.core.transport.EndPointFactory;
+import com.github.seng.core.transport.EndPointFactoryImpl;
+import com.github.seng.core.transport.Server;
 import com.github.seng.registry.api.RegisterService;
 import com.github.seng.registry.api.RegistryFactory;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -23,10 +30,17 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
      */
     private Class<T> interfaceClazz;
 
+    private T impl;
 
-    public ReferenceConfig(Class<T> interfaceClazz, RegistryConfig registryConfig) {
+    private EndPointFactory endPointFactory = new EndPointFactoryImpl();
+
+    private ServiceConfig serviceConfig;
+
+
+    public ReferenceConfig(Class<T> interfaceClazz, RegistryConfig registryConfig, ServiceConfig serviceConfig) {
         this.interfaceClazz = interfaceClazz;
         this.registryConfigs.add(registryConfig);
+        this.serviceConfig = serviceConfig;
     }
 
     /**
@@ -40,6 +54,28 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
 
     protected URL expect;
 
+    private Exporter<T> exporter;
+
+    private Reference<T> reference;
+
+    protected void initExport() {
+        exporter = new Exporter<>(interfaceClazz, impl);
+        exporter.setProtocol("seng");
+        exporter.setServer(getServer());
+        exporter.export();
+        Client client = getClient();
+        reference = new Reference<>(client, interfaceClazz);
+        expect = exporter.getURL();
+    }
+
+    private Server getServer() {
+        return endPointFactory.createServer(serviceConfig.getPort());
+    }
+
+    private Client getClient() {
+        return endPointFactory.createClient(new InetSocketAddress(serviceConfig.getHost(), serviceConfig.getPort()));
+    }
+
     @Override
     public T get() {
         if (state == State.READY) {
@@ -48,7 +84,7 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
         for (RegisterService registerService : registerServices) {
             List<URL> lookup = registerService.lookup(expect);
         }
-        return null;
+        return reference.refer();
     }
 
     private void loadRegistryURL() {
@@ -69,6 +105,8 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
         loadRegistryURL();
         loadRegistryList();
         // TODO: 2020-11-04 06:57:17 export service by wangyongxu
+        initExport();
+        export(expect);
         normal();
     }
 

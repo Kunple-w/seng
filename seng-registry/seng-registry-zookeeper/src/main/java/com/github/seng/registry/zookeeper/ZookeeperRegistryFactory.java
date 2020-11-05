@@ -13,7 +13,7 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 /**
  * @author wangyongxu
  */
-@SPIAlias
+@SPIAlias(alias = "zookeeper")
 public class ZookeeperRegistryFactory extends AbstractRegistryFactory {
 
     @Override
