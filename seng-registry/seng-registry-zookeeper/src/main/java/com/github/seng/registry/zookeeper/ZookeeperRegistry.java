@@ -71,7 +71,7 @@ public class ZookeeperRegistry implements RegisterService, Node {
     @Override
     public void register(URL url) {
         try {
-            client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(toZkPath(url), URLEncoder.encode(url.toString(), "UTF-8").getBytes());
+            client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(toZkPath(url), URLEncoder.encode(url.toString(), "UTF-8").getBytes());
         } catch (Exception exception) {
             throw new SengRuntimeException(exception);
         }
