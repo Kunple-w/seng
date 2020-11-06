@@ -58,7 +58,6 @@ public class Client {
     }
 
     public void disConnect() {
-        //TODO
         channel.close();
     }
 

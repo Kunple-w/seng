@@ -1,6 +1,7 @@
 package com.github.seng.core.rpc.config;
 
 import com.github.seng.core.UserService;
+import com.github.seng.core.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ public class ReferenceConfigTest {
         serviceConfig.setHost("localhost");
         serviceConfig.setPort(port);
         ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig, serviceConfig);
+        referenceConfig.setImpl(new UserServiceImpl());
         UserService userService = referenceConfig.get();
         logger.info("service: {}", userService.hello("world"));
     }

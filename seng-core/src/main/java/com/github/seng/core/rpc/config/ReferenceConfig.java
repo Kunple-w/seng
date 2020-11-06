@@ -1,8 +1,8 @@
 package com.github.seng.core.rpc.config;
 
 import com.github.seng.common.LifeCycle;
-import com.github.seng.common.URLConstant;
 import com.github.seng.common.URL;
+import com.github.seng.common.URLConstant;
 import com.github.seng.common.spi.ExtensionLoader;
 import com.github.seng.core.rpc.Exporter;
 import com.github.seng.core.rpc.Reference;
@@ -15,6 +15,7 @@ import com.github.seng.registry.api.RegistryFactory;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -61,19 +62,24 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
     protected void initExport() {
         exporter = new Exporter<>(interfaceClazz, impl);
         exporter.setProtocol("seng");
+        exporter.setPort(serviceConfig.getPort());
         exporter.setServer(getServer());
         exporter.export();
-        Client client = getClient();
-        reference = new Reference<>(client, interfaceClazz);
+
         expect = exporter.getURL();
+    }
+
+    protected void initReference(URL url) {
+        Client client = createClient(url);
+        reference = new Reference<>(client, interfaceClazz);
     }
 
     private Server getServer() {
         return endPointFactory.createServer(serviceConfig.getPort());
     }
 
-    private Client getClient() {
-        return endPointFactory.createClient(new InetSocketAddress(serviceConfig.getHost(), serviceConfig.getPort()));
+    private Client createClient(URL url) {
+        return endPointFactory.createClient(new InetSocketAddress(url.getHost(), url.getPort()));
     }
 
     @Override
@@ -83,6 +89,15 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
         }
         for (RegisterService registerService : registerServices) {
             List<URL> lookup = registerService.lookup(expect);
+            // TODO: 2020-11-06 08:59:18 通过寻址创建连接 by wangyongxu
+            // TODO: 2020-11-06 09:48:58 负载均衡 by wangyongxu
+
+            Iterator<URL> iterator = lookup.iterator();
+            if (iterator.hasNext()) {
+                URL next = iterator.next();
+                initReference(next);
+            }
+
         }
         return reference.refer();
     }
@@ -135,5 +150,13 @@ public class ReferenceConfig<T> implements Supplier<T>, LifeCycle {
     @Override
     public State getState() {
         return state;
+    }
+
+    public T getImpl() {
+        return impl;
+    }
+
+    public void setImpl(T impl) {
+        this.impl = impl;
     }
 }
