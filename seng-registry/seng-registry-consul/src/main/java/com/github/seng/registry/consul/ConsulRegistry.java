@@ -29,10 +29,22 @@ public class ConsulRegistry implements RegisterService {
     static final long DEFAULT_CHECK_PASS_INTERVAL = 16L;
     public static final String URL_META_KEY = "url";
 
-    private Consul consul = Consul.builder().build();
+    private Consul consul;
 
     private Map<URL, ServiceHealthCache> cacheMap = new ConcurrentHashMap<>();
     private Map<ServiceHealthCache, List<Map<EventListener, ConsulCache.Listener<ServiceHealthKey, ServiceHealth>>>> listenerMap = new ConcurrentHashMap<>();
+
+    ConsulRegistry(String url) {
+        if (StringUtils.isNotBlank(url)) {
+            this.consul = Consul.builder().withUrl(url).build();
+        } else {
+            this.consul = Consul.builder().build();
+        }
+    }
+
+    ConsulRegistry() {
+        this.consul = Consul.builder().build();
+    }
 
     @Override
     public void register(URL url) {
@@ -52,14 +64,7 @@ public class ConsulRegistry implements RegisterService {
         String serviceName = getServiceName(url);
         Integer port = url.getPort();
         String address = url.getHost();
-        return ImmutableRegistration.builder()
-                .name(serviceName)
-                .port(port)
-                .address(address)
-                .id(serviceId)
-                .check(buildRegCheck(url))
-                .tags(buildTags(url))
-                .meta(buildMeta(url)).build();
+        return ImmutableRegistration.builder().name(serviceName).port(port).address(address).id(serviceId).check(buildRegCheck(url)).tags(buildTags(url)).meta(buildMeta(url)).build();
     }
 
     private Map<String, String> buildMeta(URL url) {
@@ -115,14 +120,7 @@ public class ConsulRegistry implements RegisterService {
     }
 
     private List<URL> convert(List<ServiceHealth> serviceHealthy) {
-        return serviceHealthy.stream()
-                .map(ServiceHealth::getService)
-                .filter(Objects::nonNull)
-                .map(Service::getMeta)
-                .filter(m -> m != null && m.containsKey(URL_META_KEY))
-                .map(m -> m.get(URL_META_KEY))
-                .map(URL::of)
-                .collect(Collectors.toList());
+        return serviceHealthy.stream().map(ServiceHealth::getService).filter(Objects::nonNull).map(Service::getMeta).filter(m -> m != null && m.containsKey(URL_META_KEY)).map(m -> m.get(URL_META_KEY)).map(URL::of).collect(Collectors.toList());
     }
 
     private List<ServiceHealth> findServiceHealthy(String serviceName) {
@@ -151,7 +149,7 @@ public class ConsulRegistry implements RegisterService {
         };
         List<Map<EventListener, ConsulCache.Listener<ServiceHealthKey, ServiceHealth>>> maps = listenerMap.get(finalServiceHealthCache);
         Map<EventListener, ConsulCache.Listener<ServiceHealthKey, ServiceHealth>> map = new HashMap<>();
-        map.put(eventListener , listener);
+        map.put(eventListener, listener);
         if (maps == null) {
             List<Map<EventListener, ConsulCache.Listener<ServiceHealthKey, ServiceHealth>>> listenerList = new ArrayList<>();
             listenerList.add(map);
