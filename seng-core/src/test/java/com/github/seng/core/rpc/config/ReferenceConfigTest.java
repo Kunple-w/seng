@@ -22,6 +22,6 @@ public class ReferenceConfigTest {
         ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig, serviceConfig);
         referenceConfig.setImpl(new UserServiceImpl());
         UserService userService = referenceConfig.get();
-        logger.info("service: {}", userService.hello("world"));
+        assertEquals("hello world", userService.hello("world"), "远程调用失败");
     }
 }

@@ -43,6 +43,11 @@ public class Exporter<T> extends AbstractNode {
         server.registerProvider(provider);
     }
 
+    @Override
+    public void init() {
+        super.init();
+    }
+
     public void unExport(Class<T> interfaceClazz) {
         Provider<T> provider = providerMap.get(interfaceClazz);
         if (provider != null) {

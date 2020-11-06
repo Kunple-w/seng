@@ -7,8 +7,10 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 客户端
@@ -21,6 +23,8 @@ public class Client {
 
     private Channel channel;
 
+    private Bootstrap bootstrap;
+
     private ClientHandler clientHandler = new ClientHandler();
 
     /**
@@ -29,13 +33,14 @@ public class Client {
      * @param inetSocketAddress
      */
     public void start(final InetSocketAddress inetSocketAddress) {
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                connect(inetSocketAddress);
-            }
-        }, "clientStartThread");
-        thread.start();
+//        thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                connect(inetSocketAddress);
+//            }
+//        }, "clientStartThread");
+//        thread.start();
+        connect(inetSocketAddress);
     }
 
     /**
@@ -65,12 +70,12 @@ public class Client {
     private void connect(InetSocketAddress inetSocketAddress) {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
-            Bootstrap bootstrap = new Bootstrap();
+            bootstrap = new Bootstrap();
             bootstrap.group(group).channel(NioSocketChannel.class).handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     socketChannel.pipeline().addLast(new LoggingHandler());
-//                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30 * 3, TimeUnit.SECONDS));
+                    socketChannel.pipeline().addLast(new IdleStateHandler(0, 0, 30L * 3, TimeUnit.SECONDS));
                     socketChannel.pipeline().addLast(new SengMessageEncoder());
                     socketChannel.pipeline().addLast(new SengMessageDecoder());
                     socketChannel.pipeline().addLast(clientHandler);
@@ -78,14 +83,10 @@ public class Client {
             }).option(ChannelOption.TCP_NODELAY, true);
             ChannelFuture channelFuture = bootstrap.connect(inetSocketAddress.getHostString(), inetSocketAddress.getPort());
             channel = channelFuture.sync().channel();
-            channelFuture.channel().closeFuture().sync();
-
         } catch (InterruptedException e) {
             throw new SengRuntimeException("start client falied.", e);
         } catch (Throwable t) {
             throw new SengRuntimeException("unknown error", t);
-        } finally {
-            group.shutdownGracefully();
         }
     }
 
