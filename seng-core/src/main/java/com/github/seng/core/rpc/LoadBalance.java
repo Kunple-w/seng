@@ -11,7 +11,8 @@ import java.util.List;
  */
 
 @SPI
-public interface LoadBalance {
+public interface LoadBalance<T> {
 
-    public URL select(List<URL> urlList);
+    public Reference<T> select(List<Reference<T>> references, URL url);
+
 }
