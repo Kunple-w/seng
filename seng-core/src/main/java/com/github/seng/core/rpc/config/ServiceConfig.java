@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ServiceConfig {
+    private String protocol;
     private String host;
     private int port;
 }

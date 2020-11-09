@@ -19,6 +19,8 @@ import java.util.StringJoiner;
  */
 @Data
 public class URL {
+    public static final String EMPTY_PROTOCOL = "emptyProtocol";
+    public static final String EMPTY_HOST = "emptyHost";
 
     private String protocol;
 
@@ -37,6 +39,10 @@ public class URL {
 
     public URL(String protocol, String host, int port, String path) {
         this(protocol, host, port, path, null, null, new HashMap<>());
+    }
+
+    public URL(String path) {
+        this(EMPTY_PROTOCOL, EMPTY_HOST, -1, path.startsWith("/") ? path : "/" + path, null, null, new HashMap<>());
     }
 
     public URL(String protocol, String host, int port, String username, String password, String path) {

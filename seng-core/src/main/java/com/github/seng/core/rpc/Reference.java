@@ -1,5 +1,6 @@
 package com.github.seng.core.rpc;
 
+import com.github.seng.common.URL;
 import com.github.seng.core.transport.*;
 
 import java.lang.reflect.InvocationHandler;
@@ -12,6 +13,7 @@ import java.lang.reflect.Proxy;
 public class Reference<T> {
     private final Client client;
     private final Class<T> interfaceClass;
+    private T stub;
 
     public Reference(Client client, Class<T> interfaceClass) {
         this.client = client;
@@ -19,8 +21,11 @@ public class Reference<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T refer() {
-        return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new RemoteInvocationHandler(client));
+    public synchronized T refer() {
+        if (stub == null) {
+            stub = (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class[]{interfaceClass}, new RemoteInvocationHandler(client));
+        }
+        return stub;
     }
 
     private static class RemoteInvocationHandler implements InvocationHandler {

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ReferenceConfigTest {
 
@@ -19,9 +19,13 @@ public class ReferenceConfigTest {
         ServiceConfig serviceConfig = new ServiceConfig();
         serviceConfig.setHost("localhost");
         serviceConfig.setPort(port);
-        ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig, serviceConfig);
-        referenceConfig.setImpl(new UserServiceImpl());
-        UserService userService = referenceConfig.get();
+        serviceConfig.setProtocol("seng");
+        ExportConfig<UserService> exportConfig = new ExportConfig<>(UserService.class, new UserServiceImpl(), registryConfig, serviceConfig);
+        exportConfig.export();
+
+        ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig);
+        UserService userService = referenceConfig.refer();
+
         assertEquals("hello world", userService.hello("world"), "远程调用失败");
     }
 }
