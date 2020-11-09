@@ -21,4 +21,7 @@ public interface URLConstant {
 
 
     String CHECK_PASS_INTERVAL = "consul-check-pass-interval";
+
+    String LOAD_BALANCE_RANDOM = "random";
+    String LOAD_BALANCE_KEY = "loadBalance";
 }
