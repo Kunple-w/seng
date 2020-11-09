@@ -1,6 +1,5 @@
 package com.github.seng.core.rpc;
 
-import com.github.seng.common.URL;
 import com.github.seng.core.transport.*;
 
 import java.lang.reflect.InvocationHandler;
@@ -41,6 +40,10 @@ public class Reference<T> {
             Invocation invocation = Invocations.parseInvocation(method, args);
             Request request = new Request(invocation);
             Object body = client.send(request).getBody();
+            // TODO: 2020-11-09 04:51:50 超时后旧节点重试 by wangyongxu
+            // TODO: 2020-11-09 04:53:03 节点故障后负载均衡 by wangyongxu
+
+
             if (body instanceof ApiResult) {
                 return handleApiResult((ApiResult) body);
             }
