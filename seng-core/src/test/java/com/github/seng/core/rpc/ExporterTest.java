@@ -19,8 +19,8 @@ class ExporterTest {
 
     @Test
     void export() throws InterruptedException {
-        Server server = new Server();
-        server.start(new InetSocketAddress(port));
+        Server server = new Server(new InetSocketAddress(port));
+        server.start();
         UserServiceImpl userService = new UserServiceImpl();
         Exporter<UserService> exporter = new Exporter<>(UserService.class, userService);
         exporter.setProtocol("seng");
@@ -35,8 +35,8 @@ class ExporterTest {
 
     @Test
     void reference() throws InterruptedException {
-        Client client = new Client();
-        client.start(new InetSocketAddress(port));
+        Client client = new Client(new InetSocketAddress(port));
+        client.start();
         TimeUnit.SECONDS.sleep(2);
 
         Reference<UserService> reference = new Reference<>(client, UserService.class);

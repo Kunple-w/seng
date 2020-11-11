@@ -14,8 +14,8 @@ class ClientTest {
 
     @Test
     void start() throws InterruptedException {
-        Client client = new Client();
-        client.start(new InetSocketAddress(13232));
+        Client client = new Client(new InetSocketAddress(13232));
+        client.start();
         TimeUnit.SECONDS.sleep(2);
         logger.info("channel: {}", client.getChannel());
 
@@ -31,8 +31,8 @@ class ClientTest {
 
     @Test
     void remote() throws InterruptedException {
-        Client client = new Client();
-        client.start(new InetSocketAddress(13232));
+        Client client = new Client(new InetSocketAddress(13232));
+        client.start();
         TimeUnit.SECONDS.sleep(2);
 
         Reference<UserService> reference = new Reference<>(client, UserService.class);

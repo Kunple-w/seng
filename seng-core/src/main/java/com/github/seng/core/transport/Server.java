@@ -3,7 +3,10 @@ package com.github.seng.core.transport;
 import com.github.seng.common.exception.SengRuntimeException;
 import com.github.seng.core.register.Provider;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -23,16 +26,19 @@ public class Server {
 
     private Thread thread;
 
-    private Channel channel;
 
-    private ServerHandler serverHandler = new ServerHandler();
+    private final ServerHandler serverHandler = new ServerHandler();
+
+    private final InetSocketAddress inetSocketAddress;
+
+    public Server(InetSocketAddress inetSocketAddress) {
+        this.inetSocketAddress = inetSocketAddress;
+    }
 
     /**
      * start a server
-     *
-     * @param inetSocketAddress
      */
-    public void start(final InetSocketAddress inetSocketAddress) {
+    public void start() {
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -40,11 +46,6 @@ public class Server {
             }
         }, "serverStartThread");
         thread.start();
-    }
-
-    public void registerService(Object service) {
-//        ServerHandler serverHandler = channel.pipeline().get(ServerHandler.class);
-//        serverHandler.registerService(service);
     }
 
     public void registerProvider(Provider<?> provider) {
@@ -64,10 +65,6 @@ public class Server {
         }
     }
 
-    public Object receive() {
-        return null;
-    }
-
     private void bind(InetSocketAddress inetSocketAddress) {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -84,7 +81,6 @@ public class Server {
                 }
             }).option(ChannelOption.SO_BACKLOG, 1024).childOption(ChannelOption.SO_KEEPALIVE, true);
             ChannelFuture channelFuture = serverBootstrap.bind(inetSocketAddress.getPort()).sync();
-            channel = channelFuture.channel();
             channelFuture.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw new SengRuntimeException("start server fail.", e);

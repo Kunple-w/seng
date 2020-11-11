@@ -39,8 +39,6 @@ public class ReferenceConfig<T> extends AbstractRegistryHandler implements LifeC
         this.registryConfigs.add(registryConfig);
     }
 
-//    private List<Reference<T>> referenceList = new ArrayList<>();
-
     private Map<URL, Reference<T>> referenceMap = new HashMap<>();
     /**
      * url for lookup interfaceClass

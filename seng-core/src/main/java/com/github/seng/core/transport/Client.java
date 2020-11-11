@@ -27,19 +27,16 @@ public class Client {
 
     private ClientHandler clientHandler = new ClientHandler();
 
+    private final InetSocketAddress inetSocketAddress;
+
+    public Client(InetSocketAddress inetSocketAddress) {
+        this.inetSocketAddress = inetSocketAddress;
+    }
+
     /**
      * start a client
-     *
-     * @param inetSocketAddress
      */
-    public void start(final InetSocketAddress inetSocketAddress) {
-//        thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                connect(inetSocketAddress);
-//            }
-//        }, "clientStartThread");
-//        thread.start();
+    public void start() {
         connect(inetSocketAddress);
     }
 

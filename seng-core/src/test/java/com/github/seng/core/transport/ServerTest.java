@@ -16,14 +16,9 @@ class ServerTest {
     @Test
     void start() throws InterruptedException {
         logger.info("server start");
-        Server server = new Server();
-        server.start(new InetSocketAddress(13232));
-        register(server);
+        Server server = new Server(new InetSocketAddress(13232));
+        server.start();
         TimeUnit.HOURS.sleep(100);
     }
 
-    public void register(Server server) {
-        UserService userService = new UserServiceImpl();
-        server.registerService(userService);
-    }
 }
