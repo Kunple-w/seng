@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  *
  * @author wangyongxu
  */
-public interface Provider<T> extends Node, Consumer {
+public interface Provider<T> extends Node, Callable {
 
 
     /**

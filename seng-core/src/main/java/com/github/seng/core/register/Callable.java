@@ -9,7 +9,7 @@ import com.github.seng.core.transport.Invocation;
  *
  * @author wangyongxu
  */
-public interface Consumer extends Node {
+public interface Callable extends Node {
 
     ApiResult call(Invocation invocation);
 }
