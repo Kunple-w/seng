@@ -1,5 +1,6 @@
 package com.github.seng.registry.api;
 
+import com.github.seng.common.Node;
 import com.github.seng.common.URL;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  *
  * @author wangyongxu
  */
-public interface RegisterService {
+public interface RegisterService extends Node {
 
 
     /**

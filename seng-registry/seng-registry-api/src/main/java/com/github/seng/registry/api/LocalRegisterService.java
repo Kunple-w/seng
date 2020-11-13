@@ -136,4 +136,24 @@ public class LocalRegisterService implements RegisterService {
             return v;
         });
     }
+
+    @Override
+    public URL getURL() {
+        return null;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return false;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 }

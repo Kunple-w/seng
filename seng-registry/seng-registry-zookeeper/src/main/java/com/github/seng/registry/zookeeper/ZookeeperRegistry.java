@@ -1,6 +1,5 @@
 package com.github.seng.registry.zookeeper;
 
-import com.github.seng.common.Node;
 import com.github.seng.common.URL;
 import com.github.seng.common.URLConstant;
 import com.github.seng.common.exception.SengRuntimeException;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
  * @author wangyongxu
  */
 @SPIAlias(alias = "zookeeper")
-public class ZookeeperRegistry implements RegisterService, Node {
+public class ZookeeperRegistry implements RegisterService {
 
     private URL url;
     protected State state = State.READY;

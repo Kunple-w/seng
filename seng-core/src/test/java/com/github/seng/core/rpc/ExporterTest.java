@@ -34,7 +34,7 @@ class ExporterTest {
     }
 
     @Test
-    void reference() throws InterruptedException {
+    void reference() throws Exception {
         Client client = new Client(new InetSocketAddress(port));
         client.start();
         TimeUnit.SECONDS.sleep(2);

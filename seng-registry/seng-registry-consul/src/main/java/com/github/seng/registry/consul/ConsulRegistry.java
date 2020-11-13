@@ -171,4 +171,26 @@ public class ConsulRegistry implements RegisterService {
         }
 
     }
+
+    @Override
+    public URL getURL() {
+        // TODO: 2020-11-13 04:26:34 未实现
+
+        return null;
+    }
+
+    @Override
+    public boolean isAvailable() {
+        return false;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+
+    }
 }

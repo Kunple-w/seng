@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class Client {
 
-    private Thread thread;
-
     private Channel channel;
 
     private Bootstrap bootstrap;
@@ -40,14 +38,6 @@ public class Client {
         connect(inetSocketAddress);
     }
 
-    /**
-     * stop a client
-     */
-    public void stop() {
-        if (thread != null && thread.isAlive()) {
-            thread.interrupt();
-        }
-    }
 
 
     public Response send(Request request) {
@@ -61,6 +51,10 @@ public class Client {
 
     public void disConnect() {
         channel.close();
+    }
+
+    public boolean isActive() {
+        return channel.isActive();
     }
 
 
