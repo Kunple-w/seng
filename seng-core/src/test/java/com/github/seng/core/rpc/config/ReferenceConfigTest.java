@@ -23,7 +23,7 @@ public class ReferenceConfigTest {
         ExportConfig<UserService> exportConfig = new ExportConfig<>(UserService.class, new UserServiceImpl(), registryConfig, serviceConfig);
         exportConfig.export();
 
-        ReferenceConfig0<UserService> referenceConfig = new ReferenceConfig0<>(UserService.class, registryConfig);
+        ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig);
         UserService userService = referenceConfig.refer();
 
         assertEquals("hello world", userService.hello("world"), "远程调用失败");
