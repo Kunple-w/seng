@@ -13,6 +13,7 @@ import lombok.Data;
 public class RegistryConfig {
     public RegistryConfig(String address) {
         URL url = URL.of(address);
+        this.url = url;
         this.protocol = url.getProtocol();
         this.host = url.getHost();
         this.port = url.getPort();
@@ -27,4 +28,5 @@ public class RegistryConfig {
     private String username;
     private String password;
     private int timeout;
+    private URL url;
 }

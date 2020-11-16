@@ -62,7 +62,7 @@ public class ZookeeperRegistry implements RegisterService {
 
     private void startClientIfNeed() {
         CuratorFrameworkState curatorFrameworkState = client.getState();
-        if (curatorFrameworkState != CuratorFrameworkState.LATENT) {
+        if (curatorFrameworkState == CuratorFrameworkState.LATENT) {
             client.start();
         }
     }

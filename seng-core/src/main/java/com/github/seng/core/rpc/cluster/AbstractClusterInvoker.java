@@ -31,7 +31,7 @@ public abstract class AbstractClusterInvoker<T> implements ClusterInvoker<T> {
 
     protected Class<T> interfaceClass;
 
-    protected RegisterService registerService;
+    private RegisterService registerService;
 
 
     @Override
@@ -101,6 +101,7 @@ public abstract class AbstractClusterInvoker<T> implements ClusterInvoker<T> {
 
     @Override
     public void init() {
+        registerService = loadRegistry();
         registerService.init();
     }
 

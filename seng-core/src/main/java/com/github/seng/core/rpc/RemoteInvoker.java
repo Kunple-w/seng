@@ -31,6 +31,7 @@ public class RemoteInvoker<T> implements Invoker<T> {
 
     @Override
     public ApiResult call(Invocation invocation) {
+        init();
         Request request = new Request(invocation);
         Object body = client.send(request).getBody();
         if (body instanceof ApiResult) {
@@ -51,7 +52,9 @@ public class RemoteInvoker<T> implements Invoker<T> {
 
     @Override
     public void init() {
-        client = endPointFactory.createClient(new InetSocketAddress(url.getHost(), url.getPort()));
+        if (client == null) {
+            client = endPointFactory.createClient(new InetSocketAddress(url.getHost(), url.getPort()));
+        }
     }
 
     @Override

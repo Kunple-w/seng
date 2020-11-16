@@ -14,7 +14,7 @@ public class ReferenceConfigTest {
     private int port = 20000;
 
     @Test
-    public void test() {
+    public void test() throws Exception {
         RegistryConfig registryConfig = new RegistryConfig("zookeeper://localhost:2181");
         ServiceConfig serviceConfig = new ServiceConfig();
         serviceConfig.setHost("localhost");
@@ -23,7 +23,7 @@ public class ReferenceConfigTest {
         ExportConfig<UserService> exportConfig = new ExportConfig<>(UserService.class, new UserServiceImpl(), registryConfig, serviceConfig);
         exportConfig.export();
 
-        ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<>(UserService.class, registryConfig);
+        ReferenceConfig0<UserService> referenceConfig = new ReferenceConfig0<>(UserService.class, registryConfig);
         UserService userService = referenceConfig.refer();
 
         assertEquals("hello world", userService.hello("world"), "远程调用失败");

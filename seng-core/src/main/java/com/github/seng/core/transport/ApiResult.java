@@ -35,6 +35,14 @@ public class ApiResult {
         return new ApiResult(null, FAILED, throwable);
     }
 
+    public Object recreate() throws Throwable {
+        if (isSuccess()) {
+            return value;
+        } else {
+            throw throwable;
+        }
+    }
+
     @JsonIgnore
     public boolean isSuccess() {
         return code == SUCCESS;

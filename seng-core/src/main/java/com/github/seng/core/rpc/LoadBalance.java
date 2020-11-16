@@ -15,11 +15,10 @@ import java.util.List;
 @SPI
 public interface LoadBalance<T> {
 
-     Reference<T> select(List<Reference<T>> references, URL url);
+    Reference<T> select(List<Reference<T>> references, URL url);
 
-     default Invoker<T> selectInvoker(List<Invoker<T>> invokers, URL url, Invocation invocation){
-
-          return null;
-     };
+    default Invoker<T> selectInvoker(List<Invoker<T>> invokers, URL url, Invocation invocation) {
+        return invokers.get(0);
+    }
 
 }
