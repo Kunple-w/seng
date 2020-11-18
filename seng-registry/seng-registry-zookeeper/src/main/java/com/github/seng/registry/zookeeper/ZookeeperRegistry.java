@@ -17,6 +17,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +27,8 @@ import java.util.stream.Collectors;
 public class ZookeeperRegistry implements RegisterService {
 
     private URL url;
-    protected State state = State.READY;
+
+    private AtomicBoolean available = new AtomicBoolean(false);
 
     private CuratorFramework client;
     private String root;
@@ -46,18 +48,18 @@ public class ZookeeperRegistry implements RegisterService {
 
     @Override
     public boolean isAvailable() {
-        return State.NORMAL == state;
+        return available.get();
     }
 
     @Override
     public void init() {
         startClientIfNeed();
-        state = State.NORMAL;
+        available.set(true);
     }
 
     @Override
     public void destroy() {
-        state = State.FINISH;
+        available.set(false);
     }
 
     private void startClientIfNeed() {

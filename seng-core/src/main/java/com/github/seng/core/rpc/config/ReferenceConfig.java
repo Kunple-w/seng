@@ -6,17 +6,20 @@ import com.github.seng.core.rpc.Invoker;
 import com.github.seng.core.rpc.JdkProxyFactory;
 import com.github.seng.core.rpc.cluster.FailFastClusterInvoker;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * @author wangyongxu
  */
 public class ReferenceConfig<T> implements LifeCycle {
 
-    private volatile State state = State.READY;
+    private AtomicBoolean available = new AtomicBoolean(false);
+
 
     /**
      * interface class
      */
-    private  Class<T> interfaceClazz;
+    private Class<T> interfaceClazz;
 
     private T ref;
 
@@ -45,13 +48,13 @@ public class ReferenceConfig<T> implements LifeCycle {
 
     @Override
     public boolean isAvailable() {
-        return state == State.NORMAL;
+        return available.get();
     }
 
     public void init() {
         initRegistryUrl();
         initRef();
-        normal();
+        available.set(true);
     }
 
     protected void initRegistryUrl() {
@@ -66,18 +69,10 @@ public class ReferenceConfig<T> implements LifeCycle {
         ref = proxyFactory.getProxy(invoker, new Class[]{interfaceClazz});
     }
 
-    public void normal() {
-        state = State.NORMAL;
-    }
 
     @Override
     public void destroy() {
-        state = State.FINISH;
-    }
-
-    @Override
-    public State getState() {
-        return state;
+        available.set(false);
     }
 
 }

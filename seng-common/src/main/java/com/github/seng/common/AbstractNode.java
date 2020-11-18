@@ -1,10 +1,13 @@
 package com.github.seng.common;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * @author wangyongxu
  */
 public abstract class AbstractNode implements Node {
-    protected volatile State state;
+
+    private AtomicBoolean available = new AtomicBoolean(false);
     protected URL url;
 
     @Override
@@ -14,21 +17,11 @@ public abstract class AbstractNode implements Node {
 
     @Override
     public boolean isAvailable() {
-        return state == State.NORMAL;
-    }
-
-    @Override
-    public void init() {
-        state = State.READY;
+        return available.get();
     }
 
     @Override
     public void destroy() {
-        state = State.FINISH;
-    }
-
-    @Override
-    public State getState() {
-        return state;
+        available.set(false);
     }
 }

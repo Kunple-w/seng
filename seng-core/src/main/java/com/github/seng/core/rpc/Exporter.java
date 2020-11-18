@@ -45,7 +45,6 @@ public class Exporter<T> extends AbstractNode {
 
     @Override
     public void init() {
-        super.init();
     }
 
     public void unExport(Class<T> interfaceClazz) {
