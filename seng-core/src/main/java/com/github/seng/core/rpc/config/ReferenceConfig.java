@@ -46,10 +46,6 @@ public class ReferenceConfig<T> implements LifeCycle {
     }
 
 
-    @Override
-    public boolean isAvailable() {
-        return available.get();
-    }
 
     public void init() {
         initRegistryUrl();

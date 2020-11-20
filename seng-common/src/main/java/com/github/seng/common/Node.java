@@ -11,4 +11,5 @@ public interface Node extends LifeCycle {
 
     URL getURL();
 
+    boolean isAvailable();
 }

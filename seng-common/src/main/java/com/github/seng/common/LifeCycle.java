@@ -7,11 +7,8 @@ package com.github.seng.common;
  */
 public interface LifeCycle {
 
-    boolean isAvailable();
-
     void init();
 
     void destroy();
-
 
 }
