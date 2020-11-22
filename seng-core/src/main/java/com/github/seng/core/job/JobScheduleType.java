@@ -3,6 +3,22 @@ package com.github.seng.core.job;
 /**
  * @author wangyongxu
  */
-public class JobScheduleType {
+public enum JobScheduleType {
+    /**
+     * 广播
+     */
+    BROADCAST,
+    /**
+     * 单机
+     */
+    STANDALONE,
+    /**
+     * map
+     */
+    MAP,
+    /**
+     * map_reduce
+     */
+    MAP_REDUCE;
 
 }
