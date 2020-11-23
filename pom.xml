@@ -15,7 +15,6 @@
         <module>seng-executor</module>
         <module>seng-scheduler</module>
         <module>seng-client</module>
-        <module>seng-registry</module>
         <module>seng-common</module>
     </modules>
 
@@ -59,23 +58,6 @@
             <dependency>
                 <groupId>com.github</groupId>
                 <artifactId>seng-scheduler</artifactId>
-                <version>${seng.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github</groupId>
-                <artifactId>seng-registry-api</artifactId>
-                <version>${seng.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github</groupId>
-                <artifactId>seng-registry-zookeeper</artifactId>
-                <version>${seng.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github</groupId>
-                <artifactId>seng-registry-consul</artifactId>
                 <version>${seng.version}</version>
             </dependency>
 
