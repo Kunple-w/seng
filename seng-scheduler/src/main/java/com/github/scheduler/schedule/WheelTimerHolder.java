@@ -3,6 +3,7 @@ package com.github.scheduler.schedule;
 import com.github.scheduler.repository.JobDO;
 import com.github.seng.core.threadpool.SengThreadPoolFactory;
 
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class WheelTimerHolder {
@@ -11,11 +12,9 @@ public class WheelTimerHolder {
 
     private ThreadPoolExecutor executor;
 
-    public WheelTimerHolder(WheelTimer wheelTimer) {
-        this.wheelTimer = wheelTimer;
-    }
 
     public void start() {
+        wheelTimer = WheelTimer.init();
         wheelTimer.setTick(0);
         wheelTimer.setStartTime(System.currentTimeMillis());
         executor = SengThreadPoolFactory.defaultDynamicThreadPool("wheelTimer", false);
@@ -31,6 +30,10 @@ public class WheelTimerHolder {
         }
     }
 
+    public List<JobDO> getJobs() {
+        return wheelTimer.getBuckets().get(wheelTimer.getTick()).getJobDOs();
+    }
+
     public void pushJob(JobDO jobDO) {
         long currentTime = wheelTimer.getStartTime() + (wheelTimer.getTick() + 1) * 1000;
         long diff = jobDO.getNextTriggerTime() - currentTime;
@@ -44,6 +47,7 @@ public class WheelTimerHolder {
                 }
                 HashedWheelBucket hashedWheelBucket = wheelTimer.getBuckets().get(index);
                 hashedWheelBucket.getJobDOs().add(jobDO);
+                jobDO.setHashedWheelBucket(hashedWheelBucket);
             }
         }
 
@@ -51,5 +55,9 @@ public class WheelTimerHolder {
 
     public void stop() {
         executor.shutdown();
+    }
+
+    public boolean cancelJob(JobDO jobDO) {
+        return jobDO.getHashedWheelBucket().getJobDOs().remove(jobDO);
     }
 }

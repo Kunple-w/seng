@@ -25,4 +25,8 @@ public class WheelTimer {
      * 当前时间轮是从哪一时刻算起的
      */
     private long startTime;
+
+    public static WheelTimer init() {
+       return new WheelTimer();
+    }
 }
