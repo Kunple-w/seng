@@ -39,6 +39,8 @@ public class JobInfo {
     /**
      * ------------------------------- 定时信息 -----------------------------start
      */
+    private JobTimeExpressionType timeExpressionType;
+
     private String cron;
 
     private long fixedDelay;
