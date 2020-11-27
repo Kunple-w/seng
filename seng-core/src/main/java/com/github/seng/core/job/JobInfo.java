@@ -88,5 +88,6 @@ public class JobInfo {
     private Map<Object, Object> callBackParams;
 
 
+    OverridePolicy overridePolicy;
 
 }
