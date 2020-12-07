@@ -47,7 +47,6 @@ public class WheelTimerHolder {
                 }
                 HashedWheelBucket hashedWheelBucket = wheelTimer.getBuckets().get(index);
                 hashedWheelBucket.getJobDOs().add(jobDO);
-                jobDO.setHashedWheelBucket(hashedWheelBucket);
             }
         }
 
@@ -57,7 +56,19 @@ public class WheelTimerHolder {
         executor.shutdown();
     }
 
-    public boolean cancelJob(JobDO jobDO) {
-        return jobDO.getHashedWheelBucket().getJobDOs().remove(jobDO);
+    public boolean cancelJob(String jobId) {
+        int tick = wheelTimer.getTick();
+        for(int i = tick + 1; i < tick + 59; i ++) {
+            int index = i;
+            if(index > 59) {
+                index -= 60;
+            }
+            JobDO jobDO = wheelTimer.getBuckets().get(index).ifContains(jobId);
+            if(jobDO != null) {
+                return wheelTimer.getBuckets().get(index).getJobDOs().remove(jobDO);
+            }
+        }
+        return false;
     }
+
 }

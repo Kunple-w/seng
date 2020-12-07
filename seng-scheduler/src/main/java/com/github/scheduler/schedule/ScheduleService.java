@@ -5,6 +5,8 @@ import com.github.seng.core.threadpool.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -19,7 +21,11 @@ public class ScheduleService {
 
     private Thread scheduleThread;
 
-    private boolean isRunning;
+    private Thread cacheThread;
+
+    private volatile List<JobDO> cache = new ArrayList<>();
+
+    private volatile boolean isRunning;
 
     public void start() {
         wheelTimerHolder = new WheelTimerHolder();
@@ -39,9 +45,44 @@ public class ScheduleService {
                 }
             }
         });
+        cacheThread = new NamedThreadFactory("cache", false).newThread(new Runnable() {
+            @Override
+            public void run() {
+                long currentTime = System.currentTimeMillis();
+                while (isRunning) {
+                    cache = getJobsFromDB(currentTime);
+                    if (!cache.isEmpty()) {
+                        Iterator<JobDO> jobDOIterator = cache.iterator();
+                        while (jobDOIterator.hasNext()) {
+                            JobDO jobDO = jobDOIterator.next();
+                            wheelTimerHolder.pushJob(jobDO);
+                            jobDOIterator.remove();
+                        }
+                    }
+                    try {
+                        Thread.sleep(30000);
+                    } catch (InterruptedException e) {
+                        logger.error("thread-{} interrupt exception", scheduleThread.getName(), e);
+                    }
+                    currentTime += 30000;
+                }
+            }
+        });
+    }
+
+    private List<JobDO> getJobsFromDB(long time) {
+        //todo
+        return null;
     }
 
     public void cancelJob(String jobId) {
+        if (cache.isEmpty()) {
+            boolean b = cache.removeIf(jobDO -> jobId.equals(jobDO.getJobId()));
+            if (!b) {
+                wheelTimerHolder.cancelJob(jobId);
+            }
+
+        }
 
     }
 
@@ -49,6 +90,9 @@ public class ScheduleService {
         isRunning = false;
         if (scheduleThread.isAlive()) {
             scheduleThread.interrupt();
+        }
+        if (cacheThread.isAlive()) {
+            cacheThread.interrupt();
         }
     }
 
