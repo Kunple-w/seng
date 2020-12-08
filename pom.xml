@@ -20,7 +20,7 @@
 
     <properties>
         <seng.version>1.0-SNAPSHOT</seng.version>
-        <junit-jupiter.version>RELEASE</junit-jupiter.version>
+        <junit-jupiter.version>5.7.0</junit-jupiter.version>
         <netty.version>4.1.52.Final</netty.version>
         <zookeeper.version>3.6.2</zookeeper.version>
         <consul.version>1.4.2</consul.version>
