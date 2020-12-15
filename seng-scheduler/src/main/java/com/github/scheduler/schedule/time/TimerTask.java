@@ -1,6 +1,8 @@
 package com.github.scheduler.schedule.time;
 
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -15,6 +17,8 @@ import java.util.concurrent.Future;
 
 @Data
 public class TimerTask<T> {
+    private static final Logger logger = LoggerFactory.getLogger(TimerTask.class);
+
     private String taskId;
 
     private Callable task;
@@ -32,7 +36,8 @@ public class TimerTask<T> {
 
     public Future<T> call() {
         Future<T> future = executorService.submit(task);
-        System.out.println("该任务" + taskId +"预计执行时间： " + executeTime + ", 实际执行时间： " + System.currentTimeMillis());
+/*        logger.debug("该任务" + taskId +"预计执行时间： " + executeTime + ", 实际执行时间： " + System.currentTimeMillis());
+        System.out.println("该任务" + taskId +"预计执行时间： " + executeTime + ", 实际执行时间： " + System.currentTimeMillis())*/;
         return future;
     }
 }

@@ -1,6 +1,7 @@
 package com.github.scheduler.schedule.time;
 
-import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,11 @@ import java.util.concurrent.Future;
  *
  * @author qiankewei
  */
-@Data
+
 public class WheelBucket {
+
+    private static final Logger logger = LoggerFactory.getLogger(WheelBucket.class);
+
     private List<TimerTask> tasks = new LinkedList<>();
 
     private ConcurrentHashMap<String, Future> resultMap = new ConcurrentHashMap<>();
@@ -20,6 +24,7 @@ public class WheelBucket {
     private final Object lock = new Object();
 
     public void runTask() {
+        long startTime = System.currentTimeMillis();
         synchronized (lock) {
             for (TimerTask task : tasks) {
                 Future future = task.call();
@@ -29,6 +34,8 @@ public class WheelBucket {
                 tasks.clear();
             }
         }
+        long endTime = System.currentTimeMillis();
+        logger.debug("执行该格开始时间：" + startTime + ",执行一格花费的时间： " + (endTime - startTime));
     }
 
     public void removeByTaskId(String taskId) {

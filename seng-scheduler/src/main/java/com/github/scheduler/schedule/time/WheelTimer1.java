@@ -36,13 +36,11 @@ public class WheelTimer1 {
 
     private ConcurrentHashMap<String, Future> resultMap = new ConcurrentHashMap<>();
 
-    public WheelTimer1(List<TimerTask> tasks) {
+    public WheelTimer1() {
         for (int i = 0; i < 60; i++) {
             buckets[i] = new WheelBucket();
         }
         tick = new AtomicInteger(0);
-        startTime = System.currentTimeMillis();
-        loadData(tasks);
     }
 
     public void start() {
