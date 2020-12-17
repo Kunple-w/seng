@@ -34,7 +34,7 @@ class WheelTimer1Test {
                         TimerTask timerTask = new TimerTask(UUID.randomUUID().toString(), callable, threadPoolExecutor, (System.currentTimeMillis() + RandomUtils.nextInt(0,30000)));
                         timerTasks.add(timerTask);
                     }
-                    wheelTimer1.loadData(timerTasks);
+                    wheelTimer1.loadTasks(timerTasks);
                     try {
                         Thread.sleep(30000);
                     } catch (InterruptedException e) {

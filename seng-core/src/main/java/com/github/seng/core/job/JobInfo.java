@@ -41,13 +41,7 @@ public class JobInfo {
      */
     private JobTimeExpressionType timeExpressionType;
 
-    private String cron;
-
-    private long fixedDelay;
-
-    private long fixedRate;
-
-    private long initialDelay;
+    private String timeExpression;
 
     /**
      * ------------------------------- 定时信息 -----------------------------end
@@ -70,22 +64,22 @@ public class JobInfo {
     /**
      * 执行器参数
      */
-    private Map<Object, Object> executorParams;
+    private Map<String, Object> executorParams;
 
     /**
      * 任务结果是否需要回调
      */
-    private boolean needCallBack;
+    private boolean needCallback;
 
     /**
      * 回调地址
      */
-    private String callBackAddress;
+    private String callbackAddress;
 
     /**
      * 回调参数
      */
-    private Map<Object, Object> callBackParams;
+    private Map<String, Object> callbackParams;
 
 
     OverridePolicy overridePolicy;

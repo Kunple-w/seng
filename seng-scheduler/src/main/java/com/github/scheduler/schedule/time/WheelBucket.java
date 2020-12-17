@@ -38,7 +38,7 @@ public class WheelBucket {
         logger.debug("执行该格开始时间：" + startTime + ",执行一格花费的时间： " + (endTime - startTime));
     }
 
-    public void removeByTaskId(String taskId) {
+    public boolean removeByTaskId(String taskId) {
         synchronized (lock) {
             if (resultMap.containsKey(taskId)) {
                 Future future = resultMap.get(taskId);
@@ -46,7 +46,7 @@ public class WheelBucket {
                     future.cancel(true);
                 }
                 resultMap.remove(taskId);
-                return;
+                return true;
             }
             boolean flag = false;
             int index = 0;
@@ -59,8 +59,10 @@ public class WheelBucket {
             }
             if (flag) {
                 tasks.remove(index);
+                return true;
             }
         }
+        return false;
     }
 
     public Future getAndRemoveResult(String taskId) {

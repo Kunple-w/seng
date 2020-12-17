@@ -78,9 +78,9 @@ public class WheelTimer1 {
         }
     }
 
-    public void loadData(List<TimerTask> tasks) {
+    public void loadTasks(List<TimerTask> tasks) {
         for (TimerTask timerTask : tasks) {
-            long diff = timerTask.getExecuteTime() - (startTime + (tick.get() + 1) * 1000);
+            long diff = timerTask.getTriggerTime() - (startTime + (tick.get() + 1) * 1000);
             if (diff < 0) {
                 Future future = timerTask.call();
                 resultMap.put(timerTask.getTaskId(), future);
@@ -91,6 +91,18 @@ public class WheelTimer1 {
                         index -= 60;
                     }
                     buckets[index].addTask(timerTask);
+                }
+            }
+        }
+    }
+
+    public void cancelTask(String taskId) {
+        if (resultMap.containsKey(taskId)) {
+            resultMap.get(taskId).cancel(true);
+        } else {
+            for (int i = 0; i < 60; i++) {
+                if (buckets[i].removeByTaskId(taskId)) {
+                    return;
                 }
             }
         }

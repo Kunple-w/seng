@@ -7,18 +7,24 @@ public enum JobScheduleType {
     /**
      * 广播
      */
-    BROADCAST,
+    BROADCAST("broadcast"),
     /**
      * 单机
      */
-    STANDALONE,
+    STANDALONE("standalone"),
     /**
      * map
      */
-    MAP,
+    MAP("map"),
     /**
      * map_reduce
      */
-    MAP_REDUCE;
+    MAP_REDUCE("mapreduce");
+
+    private String scheduleType;
+
+    JobScheduleType(String scheduleType) {
+        this.scheduleType = scheduleType;
+    }
 
 }
