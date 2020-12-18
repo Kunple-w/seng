@@ -1,4 +1,4 @@
-package com.github.executor;
+package com.github.seng.core.job;
 
 import lombok.Data;
 

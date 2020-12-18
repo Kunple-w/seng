@@ -2,6 +2,7 @@ package com.github.executor;
 
 import com.github.seng.common.utils.ReflectUtils;
 import com.github.seng.core.job.AttachConstant;
+import com.github.seng.core.job.SengContext;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JavaMethodExecutorTest {
 

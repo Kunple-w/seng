@@ -1,5 +1,7 @@
 package com.github.executor;
 
+import com.github.seng.core.job.SengContext;
+
 /**
  * @author wangyongxu
  */
