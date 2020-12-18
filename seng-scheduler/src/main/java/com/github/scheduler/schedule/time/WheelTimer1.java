@@ -34,7 +34,7 @@ public class WheelTimer1 {
 
     private Thread tickThread;
 
-    private ConcurrentHashMap<String, Future> resultMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Future<?>> resultMap = new ConcurrentHashMap<>();
 
     public WheelTimer1() {
         for (int i = 0; i < 60; i++) {

@@ -5,7 +5,6 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
@@ -52,6 +51,7 @@ public class ReflectUtils {
         }
         return getMethodSignature(methodName, sj.toString());
     }
+
     public static String getClassMethodNames(Class<?> clazz) {
         Map<String, Method> methodListDesc = getMethodListDesc(clazz);
         StringJoiner sj = new StringJoiner(",");
@@ -68,5 +68,28 @@ public class ReflectUtils {
             map.put(getMethodSignature(method), method);
         }
         return map;
+    }
+
+    public static Method getMethod(String executorSignature) {
+        String classMethodArgString = classMethodArgString(executorSignature);
+
+        String[] classNameMethodArgSplit = classMethodArgString.split(" ");
+        String classNameMethodArg = classNameMethodArgSplit[classNameMethodArgSplit.length - 1];
+        String className = classNameMethodArg.substring(0, classNameMethodArg.lastIndexOf("."));
+        String methodName = classNameMethodArg.substring(classNameMethodArg.lastIndexOf(".") + 1)
+                .replace("(", "")
+                .replace(")", "");
+        Class<?> aClass = getClass(className);
+        return MethodUtils.getMatchingMethod(aClass, methodName);
+    }
+
+    private static String classMethodArgString(String executorSignature) {
+        String[] aThrows = executorSignature.split("throws");
+        return aThrows[0];
+    }
+
+
+    public static String generateExecutorSignature(Method method) {
+        return method.toString();
     }
 }

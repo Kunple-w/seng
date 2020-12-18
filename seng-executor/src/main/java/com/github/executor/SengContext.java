@@ -1,5 +1,7 @@
 package com.github.executor;
 
+import lombok.Data;
+
 import java.util.Map;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Map;
  *
  * @author wangyongxu
  */
+@Data
 public class SengContext {
     /**
      * 作业id, 一个作业可以拆分为多个任务
@@ -27,6 +30,8 @@ public class SengContext {
      * 分片索引
      */
     private int shardIndex;
+
+    private String jobType;
 
     /**
      * 额外参数

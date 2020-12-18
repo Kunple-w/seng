@@ -7,8 +7,6 @@ package com.github.executor;
  */
 public interface SengExecutor {
 
-    void execute(SengJob sengJob);
-
-
+    void execute(SengContext sengContext);
 
 }
