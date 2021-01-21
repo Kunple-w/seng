@@ -2,7 +2,9 @@ package com.github.scheduler.repository;
 
 import com.github.seng.core.job.JobInfo;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * job crud
@@ -19,5 +21,9 @@ public interface JobRepository {
     int delete(String jobName);
 
     Iterator<JobInfo> iterator(JobInfo condition);
+
+    Iterator<JobInfo> iterator();
+
+    Map<String, Collection<JobInfo>> getJobs();
 
 }

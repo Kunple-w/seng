@@ -38,6 +38,11 @@ public class WheelBucket {
         logger.debug("执行该格开始时间：" + startTime + ",执行一格花费的时间： " + (endTime - startTime));
     }
 
+    @Override
+    public String toString() {
+        return tasks.toString();
+    }
+
     public boolean removeByTaskId(String taskId) {
         synchronized (lock) {
             if (resultMap.containsKey(taskId)) {

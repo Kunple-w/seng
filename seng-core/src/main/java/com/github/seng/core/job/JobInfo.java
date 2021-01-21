@@ -1,10 +1,13 @@
 package com.github.seng.core.job;
 
+import lombok.Data;
+
 import java.util.Map;
 
 /**
  * @author wangyongxu
  */
+@Data
 public class JobInfo {
 
     /**
@@ -20,6 +23,11 @@ public class JobInfo {
      * 任务名称
      */
     private String name;
+
+    /**
+     * 业务组
+     */
+    private String group;
 
     /**
      * 任务提交者信息

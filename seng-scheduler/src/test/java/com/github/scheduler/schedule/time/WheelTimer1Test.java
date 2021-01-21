@@ -30,7 +30,7 @@ class WheelTimer1Test {
                 ThreadPoolExecutor threadPoolExecutor = SengThreadPoolFactory.defaultFixedThreadPool("timerTest", false);
                 while(true) {
                     List<TimerTask> timerTasks = new ArrayList<>(200000);
-                    for (int i = 0; i < 200000; i++) {
+                    for (int i = 0; i < 2; i++) {
                         TimerTask<Long> timerTask = new TimerTask<>(UUID.randomUUID().toString(), callable, threadPoolExecutor, (System.currentTimeMillis() + RandomUtils.nextInt(0,30000)));
                         timerTasks.add(timerTask);
                     }
