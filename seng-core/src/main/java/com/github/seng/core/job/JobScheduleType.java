@@ -27,4 +27,8 @@ public enum JobScheduleType {
         this.scheduleType = scheduleType;
     }
 
+    public String value() {
+        return scheduleType;
+    }
+
 }

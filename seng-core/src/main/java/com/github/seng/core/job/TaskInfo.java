@@ -1,11 +1,14 @@
 package com.github.seng.core.job;
 
+import lombok.Data;
+
 import java.util.Map;
 
 /**
  * 独立成每一个小部分进行执行
  * @author qiankewei
  */
+@Data
 public class TaskInfo {
     /**
      * 分发到executor里的任务Id
@@ -30,7 +33,7 @@ public class TaskInfo {
     /**
      * 执行器参数
      */
-    private Map<Object, Object> executorParams;
+    private Map<String, Object> executorParams;
 
     /**
      * 任务结果是否需要回调
@@ -45,5 +48,5 @@ public class TaskInfo {
     /**
      * 回调参数
      */
-    private Map<Object, Object> callBackParams;
+    private Map<String, Object> callBackParams;
 }
