@@ -9,7 +9,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 /**
- *
  * @author qiankewei
  */
 
@@ -19,13 +18,13 @@ public class TimerTask<T> {
 
     private String taskId;
 
-    private Callable task;
+    private Callable<T> task;
 
     private ExecutorService executorService;
 
     private long triggerTime;
 
-    public TimerTask (String taskId, Callable task, ExecutorService executorService, long triggerTime) {
+    public TimerTask(String taskId, Callable<T> task, ExecutorService executorService, long triggerTime) {
         this.taskId = taskId;
         this.task = task;
         this.executorService = executorService;
@@ -34,7 +33,7 @@ public class TimerTask<T> {
 
     public Future<T> call() {
         Future<T> future = executorService.submit(task);
-        logger.debug("该任务" + taskId +"预计执行时间： " + triggerTime + ", 实际执行时间： " + System.currentTimeMillis());
+        logger.debug("task {} expected execution time {}ms, actual execution time {}ms.", taskId, triggerTime, System.currentTimeMillis());
         return future;
     }
 }

@@ -14,8 +14,8 @@ class WheelTimer1Test {
 
 
     public static void main(String[] args) {
-        WheelTimer1 wheelTimer1 = new WheelTimer1();
-        wheelTimer1.start();
+        WheelTimer wheelTimer = new WheelTimer();
+        wheelTimer.start();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -31,10 +31,10 @@ class WheelTimer1Test {
                 while(true) {
                     List<TimerTask> timerTasks = new ArrayList<>(200000);
                     for (int i = 0; i < 200000; i++) {
-                        TimerTask timerTask = new TimerTask(UUID.randomUUID().toString(), callable, threadPoolExecutor, (System.currentTimeMillis() + RandomUtils.nextInt(0,30000)));
+                        TimerTask<Long> timerTask = new TimerTask<>(UUID.randomUUID().toString(), callable, threadPoolExecutor, (System.currentTimeMillis() + RandomUtils.nextInt(0,30000)));
                         timerTasks.add(timerTask);
                     }
-                    wheelTimer1.loadTasks(timerTasks);
+                    wheelTimer.loadTasks(timerTasks);
                     try {
                         Thread.sleep(30000);
                     } catch (InterruptedException e) {

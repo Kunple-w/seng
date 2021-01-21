@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author qiankewei
  */
-public class WheelTimer1 {
-    private static final Logger logger = LoggerFactory.getLogger(WheelTimer1.class);
+public class WheelTimer {
+    private static final Logger logger = LoggerFactory.getLogger(WheelTimer.class);
     /**
      * 底层存1分钟的任务，每格代表1s
      */
@@ -36,7 +36,7 @@ public class WheelTimer1 {
 
     private ConcurrentHashMap<String, Future<?>> resultMap = new ConcurrentHashMap<>();
 
-    public WheelTimer1() {
+    public WheelTimer() {
         for (int i = 0; i < 60; i++) {
             buckets[i] = new WheelBucket();
         }

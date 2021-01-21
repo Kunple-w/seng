@@ -1,4 +1,4 @@
-package com.github.scheduler.schedule;
+package com.github.scheduler.schedule.strategy;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;

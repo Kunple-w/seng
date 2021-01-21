@@ -1,4 +1,4 @@
-package com.github.scheduler.schedule;
+package com.github.scheduler.schedule.strategy;
 
 import org.apache.commons.lang3.RandomUtils;
 

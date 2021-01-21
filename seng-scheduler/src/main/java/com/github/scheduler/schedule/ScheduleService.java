@@ -1,4 +1,4 @@
-package com.github.scheduler.schedule.time;
+package com.github.scheduler.schedule;
 
 /**
  * @author wangyongxu

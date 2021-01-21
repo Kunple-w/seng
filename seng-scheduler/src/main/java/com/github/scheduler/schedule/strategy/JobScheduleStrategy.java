@@ -1,6 +1,4 @@
-package com.github.scheduler.schedule;
-
-import com.github.seng.core.job.JobInfo;
+package com.github.scheduler.schedule.strategy;
 
 import java.util.List;
 
