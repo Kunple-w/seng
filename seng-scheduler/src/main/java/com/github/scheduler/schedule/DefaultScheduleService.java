@@ -3,8 +3,13 @@ package com.github.scheduler.schedule;
 import com.github.scheduler.repository.JobRepository;
 import com.github.scheduler.schedule.time.TimerTask;
 import com.github.scheduler.schedule.time.WheelTimer;
+import com.github.scheduler.splitter.JobShard;
+import com.github.scheduler.splitter.JobSplitter;
+import com.github.seng.core.Node;
+import com.github.seng.core.NodeRegistry;
 import com.github.seng.core.job.JobInfo;
 import com.github.seng.core.job.JobResult;
+import com.github.seng.core.job.TaskInfo;
 import com.github.seng.core.threadpool.SengThreadPoolFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +26,7 @@ import java.util.stream.Collectors;
 public class DefaultScheduleService implements ScheduleService {
     private static final Logger logger = LoggerFactory.getLogger(DefaultScheduleService.class);
     private JobRepository jobRepository;
+    private NodeRegistry nodeRegistry;
     private Map<String, WheelTimer> map = new HashMap<>();
 
     public DefaultScheduleService(JobRepository jobRepository) {
@@ -68,23 +74,12 @@ public class DefaultScheduleService implements ScheduleService {
     }
 
     private TimerTask<?> timerTask(JobInfo jobInfo) {
+        JobSplitter jobSplitter = new JobShard();
+        List<Node> executorNodes = nodeRegistry.getExecutorNodes();
+        List<TaskInfo> taskInfoList = jobSplitter.split(jobInfo, executorNodes);
         Callable<JobResult> callable = new TaskRpcDispatcher();
-
         Date date = new CronTrigger(jobInfo.getTimeExpression()).nextExecutionTime(new SimpleTriggerContext());
-
         return new TimerTask<>(jobInfo.getId(), callable, SengThreadPoolFactory.defaultFixedThreadPool(jobInfo.getGroup(), true), date.getTime());
     }
-
-    private static class TaskRpcDispatcher implements Callable<JobResult> {
-        private static final Logger logger = LoggerFactory.getLogger(TaskRpcDispatcher.class);
-
-        @Override
-        public JobResult call() throws Exception {
-            logger.info("task should be dispatched");
-            // TODO: 2021-01-21 04:35:31 rpc分发给执行器 by wangyongxu
-            return new JobResult();
-        }
-    }
-
 
 }
