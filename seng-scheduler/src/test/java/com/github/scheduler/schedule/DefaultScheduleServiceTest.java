@@ -2,6 +2,7 @@ package com.github.scheduler.schedule;
 
 import com.github.scheduler.repository.CacheJobRepository;
 import com.github.scheduler.repository.JobRepository;
+import com.github.seng.core.NodeRegistry;
 import com.github.seng.core.job.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,9 +17,15 @@ class DefaultScheduleServiceTest {
 
     private JobRepository jobRepository = new CacheJobRepository();
 
+    private NodeRegistry nodeRegistry = new NodeRegistry();
+
     @BeforeEach
     void setup() {
-        jobRepository.save(jobInfo());
+        for(int i = 0; i < 1000 ; i++) {
+            JobInfo jobInfo = jobInfo();
+            jobInfo.setName("test-job-name-" + i);
+            jobRepository.save(jobInfo);
+        }
     }
 
     private JobInfo jobInfo() {
@@ -43,7 +50,7 @@ class DefaultScheduleServiceTest {
 
     @Test
     void start() throws InterruptedException {
-        DefaultScheduleService scheduleService = new DefaultScheduleService(jobRepository);
+        DefaultScheduleService scheduleService = new DefaultScheduleService(jobRepository, nodeRegistry);
         scheduleService.start();
         TimeUnit.MINUTES.sleep(10);
     }

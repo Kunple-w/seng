@@ -29,8 +29,9 @@ public class DefaultScheduleService implements ScheduleService {
     private NodeRegistry nodeRegistry;
     private Map<String, WheelTimer> map = new HashMap<>();
 
-    public DefaultScheduleService(JobRepository jobRepository) {
+    public DefaultScheduleService(JobRepository jobRepository, NodeRegistry nodeRegistry) {
         this.jobRepository = jobRepository;
+        this.nodeRegistry = nodeRegistry;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class DefaultScheduleService implements ScheduleService {
         JobSplitter jobSplitter = new JobShard();
         List<Node> executorNodes = nodeRegistry.getExecutorNodes();
         List<TaskInfo> taskInfoList = jobSplitter.split(jobInfo, executorNodes);
-        Callable<JobResult> callable = new TaskRpcDispatcher();
+        Callable<List<JobResult>> callable = new TaskRpcDispatcher(taskInfoList);
         Date date = new CronTrigger(jobInfo.getTimeExpression()).nextExecutionTime(new SimpleTriggerContext());
         return new TimerTask<>(jobInfo.getId(), callable, SengThreadPoolFactory.defaultFixedThreadPool(jobInfo.getGroup(), true), date.getTime());
     }
